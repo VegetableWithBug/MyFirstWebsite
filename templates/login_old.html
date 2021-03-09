@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="./static/all.min.css">
+<link rel="stylesheet" href="./static/style.css">
+<link rel="stylesheet" href="./static/components.css">
+  <head>
+    <title>报纸评价分析系统——登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div id="app">
+      <section class="section">
+      <div class="d-flex flex-wrap align-items-stretch">
+      <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
+      <div class="p-4 m-3">
+      <img src="./picture/photo_2020-06-05_10-53-37.jpg" alt="logo" width="80" class="shadow-light rounded-circle mb-5 mt-2">
+      <h4 class="text-dark font-weight-normal">欢迎使用 <span class="font-weight-bold">报纸评价分析系统</span></h4>
+      <form action="" method="POST" class="needs-validation" novalidate="">
+      <div class="login-form-item">
+      <div class="form-group">
+      <label for="username">用户名</label>
+      <input id="username" type="text" class="form-control" name="username" tabindex="1" required="" autofocus="" placeholder="Username" value="{{
+        request.form.username }}">
+      <div class="invalid-feedback">
+      请填写用户名
+      </div>
+      </div>
+      <div class="form-group">
+      <div class="d-block">
+      <label for="password" class="control-label">密码</label>
+      <div class="float-right">
+      <a href="https://maoxiong.cloud/password/reset" class="text-small google-drive-opener">
+      忘记密码？
+       </a>
+      </div>
+      </div>
+      <input id="password" type="password" class="form-control" name="password" tabindex="2" required="" placeholder="Password" value="{{
+        request.form.password }}">
+      <div class="invalid-feedback">
+      请填写密码
+      </div>
+      </div>
+      </div>
+      <div id="2fa-form" class="form-group" style="display: none;">
+      <label for="2fa-code">二步验证</label>
+      <input id="2fa-code" type="number" class="form-control" name="2fa-code" tabindex="1" maxlength="6" placeholder="请输入6位验证码" required="">
+      <div class="invalid-feedback">
+      请输入验证码
+      </div>
+      </div>
+      <div class="form-group login-form-item">
+      <div class="custom-control custom-checkbox">
+      <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+      <label class="custom-control-label" for="remember-me">记住我</label>
+      </div>
+      </div>
+      <div class="form-group text-right">
+      <button type="submit" class="btn btn-primary btn-lg btn-icon icon-right login" tabindex="4">
+      登录
+      </button>
+      </div>
+      </form>
+      <div class="mt-5 text-center login-form-item">
+      还没有账号？<a href="/register" class="google-drive-opener">马上注册 👉</a>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+      </div>
+    <!--
+      <div class="container">
+      <h1>Please login</h1>
+      <br>
+      <form action="" method="post">
+        <label for="Uname">用户名：</label>
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+        <br>
+        <label for="Uname">密码：</label>
+         <input type="password" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+        <br>
+        <input class="btn btn-default" type="submit" value="登录">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  -->
+  </body>
+</html>

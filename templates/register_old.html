@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="./static/all.min.css">
+<link rel="stylesheet" href="./static/style.css">
+<link rel="stylesheet" href="./static/components.css">
+</script><script src="./static/l.js" async=""></script> 
+<body>
+    <div id="app">
+    <section class="section">
+    <div class="container mt-5">
+    <div class="row">
+    <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+    <div class="login-brand">
+    <img src="./picture/photo_2020-06-05_10-53-37.jpg" alt="logo" width="100" class="shadow-light rounded-circle">
+    </div>
+    <div class="card card-primary">
+    <div class="card-header">
+    <h4>注册</h4>
+    </div>
+    <div class="card-body">
+    <form action="javascript:void(0);" method="POST" class="needs-validation" novalidate="">
+    <div class="row">
+    <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+    <label for="name">昵称</label>
+    <input id="name" type="text" class="form-control" name="name" required="" autofocus="">
+    <div class="invalid-feedback">
+    请填写昵称
+    </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+    <label for="email">邮箱</label>
+    <div class="input-group">
+    <input type="text" id="email" class="form-control col-7" required="">
+    <select class="custom-select input-group-append col-5" id="email_postfix" required="" style="border-top-right-radius: .25rem;
+                              border-bottom-right-radius: .25rem;">
+    <option value="@gmail.com" selected="">@gmail.com</option>
+    <option value="@qq.com">@qq.com</option>
+    <option value="@outlook.com">@outlook.com</option>
+    <option value="@163.com">@163.com</option>
+    <option value="@126.com">@126.com</option>
+    <option value="@yeah.net">@yeah.net</option>
+    <option value="@foxmail.com">@foxmail.com</option>
+    <option value="aol.com">aol.com</option>
+    <option value="@yahoo.com.cn">@yahoo.com.cn</option>
+    <option value="@yahoo.com">@yahoo.com</option>
+    <option value="@yahoo.co.jp">@yahoo.co.jp</option>
+    <option value="@sina.cn">@sina.cn</option>
+    <option value="@hotmail.com">@hotmail.com</option>
+    <option value="@ymail.com">@ymail.com</option>
+    <option value="@sohu.com">@sohu.com</option>
+    <option value="@protonmail.com">@protonmail.com</option>
+     <option value="@cloud.com">@cloud.com</option>
+    <option value="@mailscode.com">@mailscode.com</option>
+    <option value="@vip.163.com">@vip.163.com</option>
+    </select>
+    <div class="invalid-feedback">
+    请填写邮箱
+    </div>
+    </div>
+    </div>
+    <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+    <label for="email">邮箱验证码</label>
+    <div class="input-group mb-3">
+    <input id="email_code" type="text" class="form-control" name="email" required="">
+    <div class="input-group-append">
+    <button id="email_verify" class="btn btn-primary" type="button">发送</button>
+    </div>
+    </div>
+    <div class="invalid-feedback">
+    请填写邮箱验证码
+    </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+    <label for="passwd" class="d-block">密码</label>
+    <input id="passwd" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="passwd" required="">
+    <div id="pwindicator" class="pwindicator">
+    <div class="bar"></div>
+    <div class="label"></div>
+    </div>
+    <div class="invalid-feedback">
+    请填写密码
+    </div>
+    </div>
+    <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+    <label for="repasswd" class="d-block">确认密码</label>
+    <input id="repasswd" type="password" class="form-control" name="repasswd" required="">
+    <div class="invalid-feedback">
+    请再次填写密码
+    </div>
+    </div>
+    </div>
+    <div class="form-group">
+    <div class="custom-control custom-checkbox">
+    <input type="checkbox" name="agree" class="custom-control-input" id="agree" checked="checked" required="">
+    <label class="custom-control-label" for="agree">注册即代表同意 <a href="https://maoxiong.cloud/tos" target="blank" class="google-drive-opener">服务条款</a></label>
+    <div class="invalid-feedback">
+    请阅读服务条款并勾选
+    </div>
+    </div>
+    </div>
+    <div class="form-group">
+    <button id="register-confirm" onclick="doSignUp()" class="btn btn-primary btn-lg btn-block">
+    注册
+    </button>
+    </div>
+    </form>
+    </div>
+    </div>
+    <div class="mt-5 text-muted text-center">
+    已经有账号了？<a href="/login" class="google-drive-opener">马上登录 👉</a>
+    </div>
+    <div class="simple-footer">
+    Copyright © 2020 猫熊网络加速器
+    <div class="mt-2" id="copyright">Powered by <a href="https://maoxiong.cloud/staff" class="google-drive-opener">SSPANEL</a> <div class="bullet"></div>Theme by <a href="https://t.me/editXY" target="blank" class="google-drive-opener">editXY</a></div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    </div>

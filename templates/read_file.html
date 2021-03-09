@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Read your xlsx</title>
+<meta charset="utf-8" />
+    <div>
+      <div class="container">
+        点击此处上传表格
+        <input
+          type="file"
+          accept=".xls,.xlsx"
+          class="upload_file"
+          @change="readExcel($event)"
+        />
+      </div>
+    </div>
+  
+  <script>
+  import XLSX from "xlsx";
+  
+  export default {
+    data() {
+      return {
+        upload_file: "",
+        lists: []
+      };
+    },
+    methods: {
+      submit_form() {
+        // 给后端发送请求，更新数据
+        console.log("假装给后端发了个请求...");
+      },
+      readExcel(e) {
+        // 读取表格文件
+        let that = this;
+        const files = e.target.files;
+        if (files.length <= 0) {
+          return false;
+        } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
+          this.$message({
+            message: "上传格式不正确，请上传xls或者xlsx格式",
+            type: "warning"
+          });
+          return false;
+        } else {
+          // 更新获取文件名
+          that.upload_file = files[0].name;
+        }
+  
+        const fileReader = new FileReader();
+        fileReader.onload = ev => {
+          try {
+            const data = ev.target.result;
+            const workbook = XLSX.read(data, {
+              type: "binary"
+            });
+            const wsname = workbook.SheetNames[0]; //取第一张表
+            const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
+            that.lists = [];
+            // 从解析出来的数据中提取相应的数据
+            ws.forEach(item => {
+              that.lists.push({
+                username: item["用户名"],
+                phone_number: item["手机号"]
+              });
+            });
+            // 给后端发请求
+            this.submit_form();
+          } catch (e) {
+            return false;
+          }
+        };
+        fileReader.readAsBinaryString(files[0]);
+      }
+    }
+  };
+  </script>
+  </html>
