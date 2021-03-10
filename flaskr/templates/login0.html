@@ -8,7 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="static/style.css">
-    <script src="https://cdn.staticfile.org/vue/2.6.9/vue.js"></script>
+    <script src="static/vue.js"></script>
+    <script src="./static/login.js"></script>
+    
 </head>
 
 <body>
@@ -26,16 +28,18 @@
                         <div class="input"><input type="text" name="Username" id="username" /><label for="username">用户名</label></div>
                         <div class="input"><input type="password" name="Password" id="Password" /><label for="Password">密码</label></div>
                         <div class="input"><input type="password" name="repeat" id="Passwordrepeat" /><label for="Passwordrepeat">重复密码</label></div>
+                        <button type="register" onclick="RegisterPost()">注册</button>
                     </template>
 
                     <template v-if='active === "login"'>
                         <div class="input"><input type="text" name="Username" id="username"  /><label for="username">用户名</label></div>
-                        <div class="input"><input type="password" name="Password" id="Password" /><label for="Password">密码</label></div>
+                        <div class="input"><input type="password" name="Password" id="password" /><label for="Password">密码</label></div>
+                        <span>忘记?</span>
+
+                        <button type="submit" onclick="LoginPost()">登陆</button>
                     </template>
 
-                    <span>忘记?</span>
-
-                    <button type="submit">登陆</button>
+                    
                 </div>
             </div>
         </div>
@@ -57,6 +61,26 @@ var vue = new Vue({
         
     }
 })
+
+function LoginPost()
+{
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var username=document.getElementById('username').value;
+    var password=document.getElementById('password').value;
+    xmlhttp.open("POST","/login",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send("username&password");
+}
 </script>
 
 </html>

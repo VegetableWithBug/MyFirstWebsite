@@ -20,6 +20,7 @@ body {
 .container {
     position: relative;
     width: 60rem;
+    background-color: whitesmoke;
 }
 
 .container img {
