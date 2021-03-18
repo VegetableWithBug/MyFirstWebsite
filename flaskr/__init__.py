@@ -1,9 +1,10 @@
 import os
 
-from flask import Flask
+from flask import Flask,render_template
 
-#set FLASK_APP=flaskr
-#set FLASK_ENV=development
+#venv\Scripts\activate
+#$env:FLASK_APP = "flaskr"
+#$env:FLASK_ENV = "development"
 #flask run
 
 
@@ -38,6 +39,10 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    @app.route('/analyze')
+    def analyze():
+        return render_template('analyze.html')
 
     return app
 

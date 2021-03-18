@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>报纸质量评价系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./static/dist/xlsx.core.min.js"></script>
+    <style>
+      a { text-decoration: none }
+      #data-table, #data-table th, #data-table td { 
+        border: 1px solid black;
+        width: 30rem;
+        height: 2rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="analyze">
+      <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
+      <br>
+      <button type="OpenFlie" onclick="OpenFlie()">打开文件</button>
+      <br>
+    </div>
+    <div id="AnalyzeSheet"></div>
+    <script>
+
+/* make worksheet */
+    var ws_data = [
+      [ "纸白", "", "", "", "", "", "",""],
+      [ "灰色", "", "", "", "", "", "",""],
+      [ "三色灰", "", "", "", "", "", "",""],
+      [ "%40青", "", "", "", "", "", "",""],
+      [ "%40品", "", "", "", "", "", "",""],
+      [ "%40黄", "", "", "", "", "", "",""],
+      [ "%40黑", "", "", "", "", "", "",""],
+      [ "青", "", "", "", "", "", "",""],
+      [ "品", "", "", "", "", "", "",""],
+      [ "黄", "", "", "", "", "", "",""],
+      [ "黑", "", "", "", "", "", "",""],
+      [ "报头", "", "", "", "", "", "",""],
+    ];
+    var ws = XLSX.utils.aoa_to_sheet(ws_data);
+    var html_string = XLSX.utils.sheet_to_html(ws, { id: "data-table", editable: true });
+    document.getElementById("AnalyzeSheet").innerHTML = html_string;
+    </script>
+  </body>
+</html>
