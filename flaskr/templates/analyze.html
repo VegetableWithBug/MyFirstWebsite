@@ -1,31 +1,148 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>报纸质量评价系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./static/dist/xlsx.core.min.js"></script>
-    <style>
-      a { text-decoration: none }
-      #data-table, #data-table th, #data-table td { 
-        border: 1px solid black;
-        width: 30rem;
-        height: 2rem;
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="static/style_analyze.css">
   </head>
   <body>
-    <div class="analyze">
+    <div class="analyze">     
       <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
-      <br>
-      <button type="OpenFlie" onclick="OpenFlie()">打开文件</button>
-      <br>
+      <input type="file"onchange="OpenFile(this)" />
     </div>
-    <div id="AnalyzeSheet"></div>
+    <div class="download">
+      <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
+    </div>
+    <div id="AnalyzeSheet">
+      <table id="data-table">
+        <tr>
+          <th>纸白</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>灰色</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>三色灰</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>40%青</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>40%品</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>40%黄</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>40%黑</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>青</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>品</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>黄</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>黑</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+        <tr>
+          <th>报头</th>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+          <td contentEditable="true"></td>
+        </tr>
+      </table>
+    </div>
+    <div><button style="display:block;margin:0 auto" onclick="doit('xlsx');">一键分析</button></div>
+    <div id="test"></div>
     <script>
-
-/* make worksheet */
-    var ws_data = [
+     /* var ws_data = [
       [ "纸白", "", "", "", "", "", "",""],
       [ "灰色", "", "", "", "", "", "",""],
       [ "三色灰", "", "", "", "", "", "",""],
@@ -39,9 +156,128 @@
       [ "黑", "", "", "", "", "", "",""],
       [ "报头", "", "", "", "", "", "",""],
     ];
-    var ws = XLSX.utils.aoa_to_sheet(ws_data);
-    var html_string = XLSX.utils.sheet_to_html(ws, { id: "data-table", editable: true });
-    document.getElementById("AnalyzeSheet").innerHTML = html_string;
+      var ws = XLSX.utils.aoa_to_sheet(ws_data);
+      var html_string = XLSX.utils.sheet_to_html(ws, { id: "data-table0", editable: true });
+      document.getElementById("demo").innerHTML = html_string;*/
+
+      var wb;//读取完成的数据
+      var rABS = true; //是否将文件读取为二进制字符串
+      // var replacer = null;
+      function replacer(key, value) {
+          // console.log(key + ':' + value);
+          return value;
+      }
+      function OpenFile(obj){
+            if (!obj.files) {
+                return;
+            }
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                // console.log(data);
+                if (rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                }
+                const sheet2JSONOpts = {
+                  /** Default value for null/undefined values */
+                  defval: ''//给defval赋值为空的字符串
+                }
+                var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable:true}).replace("<table", '<table id="data-table"')
+                document.getElementById('data-table').outerHTML = o;
+            };
+            if (rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
+            }
+
+        function fixdata(data) { //文件流转BinaryString
+            var o = "",
+                l = 0,
+                w = 10240;
+            for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+            return o;
+        }
+
+      }
+
+      /*function Analyze()
+      {
+        var workbook=XLSX.utils.book_new();
+        const table=document.getElementById("data-table");
+        const worksheet=XLSX.utils.table_to_sheet(table);
+        XLSX.utils.book_append_sheet(workbook,worksheet,'table1');
+        XLSX.writeFile(workbook,'test.xlsx');
+      }*/
+
+      function doit(type, fn, dl) 
+      {
+        var elt = document.getElementById('data-table');
+        var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
+        return dl ?
+          XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
+          XLSX.writeFile(wb, fn || ('test.' + (type || 'xlsx')));
+      }
     </script>
+    
+   <!--<script>
+    var wb;//读取完成的数据
+    var rABS = true; //是否将文件读取为二进制字符串
+    // var replacer = null;
+    function replacer(key, value) {
+        // console.log(key + ':' + value);
+        return value;
+    }
+    function importf(obj) {//导入
+        if (!obj.files) {
+            return;
+        }
+        var f = obj.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = e.target.result;
+            // console.log(data);
+            if (rABS) {
+                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                    type: 'base64'
+                });
+            } else {
+                wb = XLSX.read(data, {
+                    type: 'binary'
+                });
+            }
+            const sheet2JSONOpts = {
+              /** Default value for null/undefined values */
+              defval: ''//给defval赋值为空的字符串
+            }
+            var xlsxData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],sheet2JSONOpts);
+            //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+            //wb.Sheets[Sheet名]获取第一个Sheet的数据
+            document.getElementById("demo").innerHTML = JSON.stringify(xlsxData, replacer);
+        };
+        if (rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+
+    function fixdata(data) { //文件流转BinaryString
+        var o = "",
+            l = 0,
+            w = 10240;
+        for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o;
+    }
+  </script>-->
   </body>
 </html>

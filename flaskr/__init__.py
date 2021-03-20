@@ -38,11 +38,16 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
-        return 'Hello, World!'
+        return render_template('hello.html')
 
     @app.route('/analyze')
     def analyze():
         return render_template('analyze.html')
+
+
+    @app.route('/sheet')
+    def sheet():
+        return render_template('SheetJS.html')
 
     return app
 

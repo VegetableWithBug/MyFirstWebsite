@@ -1,0 +1,63 @@
+#data-table td,th{ 
+    border: 1px solid black;
+    width: 20rem;
+    height: 2rem;
+    text-align: center;
+  }
+
+#data-table0 td { 
+  border: 1px solid black;
+  width: 20rem;
+  height: 2rem;
+  text-align: center;
+}
+
+body{
+    margin: 2rem,2rem;
+}
+
+div{
+    margin: 2rem;
+    
+}
+
+a {
+    color: #377ba8;
+}
+
+#analyze{
+  position:absolute; top:7rem; right:5rem; 
+}
+
+button{
+  text-align: center;
+  font: 1.5rem sans-serif;
+}
+
+#hello{
+  margin-top: 12rem;
+}
+
+#start{
+  margin-top: 3rem;
+}
+
+#start button{
+  border-radius: 1.5rem;
+  font-size: 1.2rem sans-serif;
+  background-color: white;
+  color: black;
+  border: 1px solid #4CAF50; /* Green */
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  padding: 1.5rem;
+}
+
+#hello p{
+  font-size: 5rem;
+}
+
+#start button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
