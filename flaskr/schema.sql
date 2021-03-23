@@ -40,7 +40,7 @@ CREATE TABLE result (
 CREATE TABLE settings (
   id INTEGER PRIMARY KEY AUTOINCREMENT, 
   author_id INTEGER NOT NULL,
-  header_L REAL NOT NULL.
+  header_L REAL NOT NULL,
   header_a REAL NULL NULL,
   header_b REAL NOT NULL,
   header_magenta REAL NOT NULL,
@@ -76,4 +76,4 @@ CREATE TABLE settings (
   de_standard REAL NOT NULL, --的字的标准密度
   ink_number REAL NOT NULL, --对开墨条数
   FOREIGN KEY (author_id) REFERENCES user (id)
-)
+);

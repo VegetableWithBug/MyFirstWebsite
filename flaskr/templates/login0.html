@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="./static/style0.css">
     <script src="./static/vue.js"></script>
+    <link rel="stylesheet" href="./static/style0.css">
     
 </head>
 
@@ -21,24 +21,24 @@
                     <span>/</span>
                     <span :class='{"active": active === "register"}' @click='go("register")'>注册</span>
                 </div>
+                <div id="msg" style="color:red;margin-top: 1rem;"> </div> 
                 <div class='form' id="fromLogin">
                     <template v-if='active === "register"'>
-                        <div class="input"><input type="text" name="Email" id='Email' /><label for="Email">邮箱</label></div>
-                        <div class="input"><input type="text" name="Username" id="Username" /><label for="Username">用户名</label></div>
-                        <div class="input"><input type="password" name="Password" id="Password" /><label for="Password">密码</label></div>
-                        <div class="input"><input type="password" name="Passwordrepeat" id="Passwordrepeat" /><label for="Passwordrepeat">重复密码</label></div>
-                        <button type="register" onclick="RegisterPost()">注册</button>
+                        <div class="input"><input type="text" name="Email" id='Email' /><label for="Email_label">邮箱</label></div>
+                        <div class="input"><input type="text" name="Username" id="Username" /><label for="Username_label">用户名</label></div>
+                        <div class="input"><input type="password" name="Password" id="Password" /><label for="Password_label">密码</label></div>
+                        <div class="input"><input type="password" name="Passwordrepeat" id="Passwordrepeat" /><label for="Passwordrepeat_label">重复密码</label></div>
+                        <button type="register" @click="RegisterPost()">注册</button>
                     </template>
 
                     <template v-if='active === "login"'>
-                        <div class="input"><input type="text" name="username" id="username"  /><label for="username">用户名</label></div>
-                        <div class="input"><input type="password" name="password" id="password" /><label for="password">密码</label></div>
+                        <div class="input"><input type="text" name="username" id="username"  /><label for="username_label">用户名</label></div>
+                        <div class="input"><input type="password" name="password" id="password" /><label for="password_label">密码</label></div>
                         <span>忘记?</span>
 
-                        <button type="submit" onclick="LoginPost()">登陆</button>
+                        <button type="submit" @click="LoginPost()">登陆</button>
                     </template>
-
-                    
+                       
                 </div>
             </div>
         </div>
@@ -49,73 +49,99 @@
 var vue = new Vue({
     el: '#app',
     data: {
-        active: 'login'
+        msg: "Hello",
+        active: 'login'    
     },
     methods: {
         go (type) {
             this.active = type
-        }
+            document.getElementById('msg').innerHTML='';
+        },
+
+        RegisterPost(){
+            var email=document.getElementById('Email').value;
+            var username=document.getElementById('Username').value;
+            var password=document.getElementById('Password').value;
+            var passwordrepeat=document.getElementById('Passwordrepeat').value;
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {
+                //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+                // IE6, IE5 浏览器执行代码
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var data={
+                type: "register",
+                email:email,
+                username:username,
+                password:password,
+                passwordrepeat:passwordrepeat
+            };
+            xmlhttp.open('POST','/login');
+            //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xmlhttp.send(JSON.stringify(data));
+            //console.log(data);
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState === 4){
+                    if(xmlhttp.status>=200&&xmlhttp.status<300){
+                        str=xmlhttp.response;
+                        console.log(str);
+                        document.getElementById('msg').innerHTML=str;
+                        if(str=='注册成功！'){
+                            go("login")
+                        }
+                    }
+                }
+            }
+        },
+
+        LoginPost(){
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {
+                //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+                // IE6, IE5 浏览器执行代码
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var username=document.getElementById('username').value;
+            var password=document.getElementById('password').value;
+            var data={
+                type: "login",
+                username:username,
+                password:password
+            };
+            xmlhttp.open('POST','/login');
+            //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xmlhttp.send(JSON.stringify(data));
+            //console.log(data);
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState === 4){
+                    if(xmlhttp.status>=200&&xmlhttp.status<300){
+                        console.log(xmlhttp.response);
+                        document.getElementById('msg').innerHTML=xmlhttp.response;
+                    }
+                }
+            }
+        },
+
     },
+        
     beforeMount () {
         
     }
 })
 
-function RegisterPost()
-{
-    var email=document.getElementById('Email').value;
-    var username=document.getElementById('username').value;
-    var password=document.getElementById('Password').value;
-    var passwordrepeat=document.getElementById('Passwordrepeat').value;
-    var xmlhttp;
-    if (window.XMLHttpRequest)
-    {
-        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-        xmlhttp=new XMLHttpRequest();
-    }
-    else
-    {
-        // IE6, IE5 浏览器执行代码
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    var data={
-        type: "register",
-        emal:email,
-        username:username,
-        password:password,
-        passwordrepeat:passwordrepeat
-    };
-    xmlhttp.open('POST','/login');
-    //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send(JSON.stringify(data));
-    //console.log(data);
-}
 
-function LoginPost()
-{
-    var xmlhttp;
-    if (window.XMLHttpRequest)
-    {
-        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-        xmlhttp=new XMLHttpRequest();
-    }
-    else
-    {
-        // IE6, IE5 浏览器执行代码
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    var username=document.getElementById('Username').value;
-    var password=document.getElementById('Password').value;
-    var data={
-        type: "login",
-        username:username,
-        password:password
-    };
-    xmlhttp.open('POST','/login');
-    //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send(JSON.stringify(data));
-    //console.log(data);
-}
+
+
 </script>
 
 </html>

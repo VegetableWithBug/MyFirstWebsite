@@ -33,7 +33,7 @@ body {
 
 .switch span {
     color: #ccc;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     cursor: pointer;
 }
 
@@ -42,7 +42,7 @@ body {
 }
 
 .panel {
-    width: 80%;
+    width: 60%;
     margin-left: 4rem;
     position: static;
     right: 0;
@@ -81,14 +81,14 @@ body {
     position: absolute;
     left: 0;
     top:-30%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: rgb(129, 101, 207);
     transition: .3s;
 }   
 
 .input input:focus ~ label {
     top: -50%;
-    font-size: .9rem;
+    font-size: 1rem;
 }
 
 
@@ -113,6 +113,7 @@ body {
     color: white;
     font-family: miaowu;
 }
+
 
 #live2dcanvas {
     border: 0 !important;
