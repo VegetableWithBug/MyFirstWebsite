@@ -1,6 +1,12 @@
 import os
 
-from flask import Flask,render_template
+from flask import (
+    Flask,Blueprint, flash, g, redirect, render_template, request, session, url_for,jsonify,json
+)
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from flaskr.db import get_db
 
 #venv\Scripts\activate
 #$env:FLASK_APP = "flaskr"
@@ -48,6 +54,64 @@ def create_app(test_config=None):
     @app.route('/sheet')
     def sheet():
         return render_template('SheetJS.html')
+
+    @app.route('/login',methods=('GET', 'POST'))
+    def login():
+        if request.method == 'POST':
+            text=json.loads(request.get_data()
+            if(text['type']=="login"):
+                username = text['username']
+                password = text['password']
+                error = None
+                db = get_db()
+                user = db.execute(
+                    'SELECT * FROM user WHERE username = ?', (username,)
+                ).fetchone()
+
+                if user is None:
+                    error = '用户名不存在！'
+                elif not check_password_hash(user['password'], password):
+                    error = '密码错误！'
+
+                elif error is None:
+                    session.clear()
+                    session['user_id'] = user['id']
+                    return redirect(url_for('hello'))
+            
+            elif(text['type']=="register"):
+                email=text['email']
+                username=text['username']
+                password=text['password']
+                passwordrepeat['psaawordrepeat']
+                error = None
+                
+                if(email.isspace() or len(email)==0):
+                    error = '邮箱输入不能为空！'
+                elif(username.isspace() or len(username)==0):
+                    error = '用户名输入不能为空！'
+                elif(password.isspace() or len(password)<6):
+                    error = '密码格式错误！'
+                elif(password!=passwordrepeat):
+                    error = '两次密码输入不一致！'
+                else:
+                    db = get_db()
+                    user = db.execute(
+                    'SELECT * FROM user WHERE username = ?', (username,)
+                ).fetchone()
+                    user_email = 'SELECT * FROM user WHERE email = ?', (email,)
+                ).fetchone()
+                    if user is not None:
+                        error = '用户名已经存在！'
+                    elif email is not None:
+                        error = '邮箱已被注册！'
+                    elif error is None:
+                        db.execute(
+                            'INSERT INTO user (email,username, password) VALUES (?, ? , ?)',
+                            (email, username, generate_password_hash(password))
+                        )
+                        db.commit()
+            flash(error)
+        return render_template('login0.html')
 
     return app
 
