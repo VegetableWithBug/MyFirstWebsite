@@ -1,19 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #data-table td,th{ 
-    border: 1px solid black;
+    border: 1px solid rgb(181, 154, 254);
     width: 20rem;
     height: 2rem;
     text-align: center;
   }
 
-#data-table0 td { 
-  border: 1px solid black;
-  width: 20rem;
-  height: 2rem;
-  text-align: center;
-}
+  #data-table{
+    border: 2px solid  black;
+    border-collapse: collapse;
+  }
+
 
 body{
+    height: 100vh;
+    align-items: center;
+    font-family: miaowu;
+    *background: whitesmoke;
     margin: 2rem,2rem;
+}
+
+#start button{
+  border: none;
+  outline: none;
+  margin: 2.5rem 2rem 2.5rem 2rem;
+  width: 14rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+  cursor: pointer;
+  color: black;
+}
+
+#analyze_b button {
+  border: none;
+  outline: none;
+  margin: 2.5rem 0 2.5rem 0;
+  width: 40%;
+  height: 3rem;
+  border-radius: 3rem;
+  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+  /*box-shadow: 0 0 8px rgb(181, 154, 254);*/
+  cursor: pointer;
+  color: black;
+}
+
+#AnalyzeSheet{
+  background-color: whitesmoke;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
 }
 
 div{
@@ -29,10 +67,6 @@ a {
   position:absolute; top:7rem; right:5rem; 
 }
 
-button{
-  text-align: center;
-  font: 1.5rem sans-serif;
-}
 
 #hello{
   margin-top: 12rem;
@@ -42,22 +76,29 @@ button{
   margin-top: 3rem;
 }
 
-#start button{
-  border-radius: 1.5rem;
-  font-size: 1.2rem sans-serif;
-  background-color: white;
-  color: black;
-  border: 1px solid #4CAF50; /* Green */
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
-  padding: 1.5rem;
-}
+
 
 #hello p{
   font-size: 5rem;
 }
 
 #start button:hover {
-  background-color: #4CAF50; /* Green */
   color: white;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+}
+
+#analyze_b button:hover {
+  color: white;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+}
+
+.setting {
+  position: absolute;
+  right: 1.8rem;
+  top: 0.8rem;
+}
+
+.setting img{
+  height: 2rem;
+  width: 2rem;
 }
