@@ -13,28 +13,20 @@
   #data-table{
     border: 2px solid  black;
     border-collapse: collapse;
+    display: flex;
+    justify-content: center;
   }
 
 
 body{
-    height: 100vh;
+    height: 100%;
     align-items: center;
     font-family: miaowu;
-    *background: whitesmoke;
+    background: whitesmoke;
     margin: 2rem,2rem;
 }
 
-#start button{
-  border: none;
-  outline: none;
-  margin: 2.5rem 2rem 2.5rem 2rem;
-  width: 14rem;
-  height: 3rem;
-  border-radius: 3rem;
-  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
-  cursor: pointer;
-  color: black;
-}
+
 
 #analyze_b button {
   border: none;
@@ -68,25 +60,6 @@ a {
 }
 
 
-#hello{
-  margin-top: 12rem;
-}
-
-#start{
-  margin-top: 3rem;
-}
-
-
-
-#hello p{
-  font-size: 5rem;
-}
-
-#start button:hover {
-  color: white;
-  box-shadow: 0 0 8px rgb(181, 154, 254);
-}
-
 #analyze_b button:hover {
   color: white;
   box-shadow: 0 0 8px rgb(181, 154, 254);
@@ -101,4 +74,33 @@ a {
 .setting img{
   height: 2rem;
   width: 2rem;
+}
+
+#hello{
+  margin-top: 12rem;
+}
+
+#start{
+  margin-top: 3rem;
+}
+
+#hello p{
+  font-size: 5rem;
+}
+
+#start button:hover {
+  color: white;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+}
+
+#start button{
+  border: none;
+  outline: none;
+  margin: 2.5rem 2rem 2.5rem 2rem;
+  width: 14rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+  cursor: pointer;
+  color: black;
 }

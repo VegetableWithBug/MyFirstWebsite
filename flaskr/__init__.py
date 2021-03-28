@@ -8,6 +8,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
 
+from functools import wraps
+
+from . import db
+
+from . import auth
+
 #venv\Scripts\activate
 #$env:FLASK_APP = "flaskr"
 #$env:FLASK_ENV = "development"
@@ -35,25 +41,43 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import db
+    
     db.init_app(app)
 
-    from . import auth
-    app.register_blueprint(auth.bp)
+    
+    #app.register_blueprint(auth.bp)
 
-    # a simple page that says hello
-    @app.route('/hello')
+
+    def login_required(f):
+        @wraps(f)
+        def wrap(*args, **kwargs):
+            if 'logged_in' in session:
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for('login'))
+        return wrap
+
+    
+    @app.route('/')
+    @login_required
+    def home():
+        return redirect(url_for('hello'))
+
+    
+    @app.route('/hello',methods=('GET', 'POST'))
+    @login_required
     def hello():
         return render_template('hello.html')
 
     @app.route('/analyze')
+    @login_required
     def analyze():
         return render_template('analyze.html')
 
 
-    @app.route('/sheet')
-    def sheet():
-        return render_template('SheetJS.html')
+    @app.route('/register')
+    def register():
+        return render_template('register.html')
 
     @app.before_request
     def load_logged_in_user():
@@ -65,9 +89,13 @@ def create_app(test_config=None):
                 'SELECT * FROM user WHERE id = ?', (user_id,)
             ).fetchone()
 
+
+    
+
     @app.route('/login',methods=('GET', 'POST'))
     def login():
         if request.method == 'POST':
+            code=-1
             error = None
             text=json.loads(request.get_data())
             if(text['type']=="login"):
@@ -85,8 +113,9 @@ def create_app(test_config=None):
 
                 elif error is None:
                     session.clear()
+                    session['logged_in'] = True
                     session['user_id'] = user['id']
-                    return redirect(url_for('hello'))
+                    code=1
             
             elif(text['type']=="register"):
                 email=text['email']
@@ -113,7 +142,7 @@ def create_app(test_config=None):
                     ).fetchone()
                     if user is not None:
                         error = '用户名已经存在！'
-                    elif email is not None:
+                    elif user_email is not None:
                         error = '邮箱已被注册！'
                     elif error is None:
                         db.execute(
@@ -122,8 +151,13 @@ def create_app(test_config=None):
                         )
                         db.commit()
                         error='注册成功！'
-            return(Response(response=error,content_type='text/plain;charset=utf-8'))
-        if request.method == 'GET':
+            data={
+                'code':code,
+                'msg':error
+            }
+            answer=json.dumps(data)
+            return(Response(response=answer))
+        elif request.method == 'GET':
             return render_template('login0.html')
 
     return app

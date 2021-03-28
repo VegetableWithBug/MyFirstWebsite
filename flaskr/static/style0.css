@@ -15,10 +15,11 @@ body {
     align-items: center;
     font-family: miaowu;
     background: linear-gradient(45deg, rgb(181, 154, 254), rgb(245, 189, 253)) fixed;
+    
 }
 
 .container {
-    position: relative;
+    /*position: relative;*/
     width: 60rem;
     background-color: whitesmoke;
 }
@@ -32,7 +33,7 @@ body {
 }
 
 .switch span {
-    color: #ccc;
+    color:#ccc;
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -118,4 +119,6 @@ body {
 #live2dcanvas {
     border: 0 !important;
 }
+
+
 
