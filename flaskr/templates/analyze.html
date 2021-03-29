@@ -14,7 +14,7 @@
         <br>
         <input type="file"onchange="OpenFile(this)" />
       </div>
-      <div class="setting"><a href="/hello" ><img src="./static/settings.ico" alt=""></a></div>
+      <div class="setting"><a href="/settings" ><img src="./static/settings.ico" alt=""></a></div>
       <div class="download">
         <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
       </div>
@@ -165,7 +165,7 @@
           </tr>
         </table>
       </div>
-      <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="analyze_to_result();">一键分析</button></div>
+      <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="analyze_to_result()">一键分析</button></div>
       <div id="test"></div>
     </div>
     
@@ -244,7 +244,33 @@
         const worksheet=XLSX.utils.table_to_sheet(table);
         XLSX.utils.book_append_sheet(workbook,worksheet,'table1');
         XLSX.writeFile(workbook,'test.xlsx');
-      }*/
+      }
+      CREATE TABLE result (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        author_id INTEGER NOT NULL,
+        created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, --创建时间
+        score INTEGER NOT NULL, -- 得分
+        machine TEXT, -- 机器名称
+        title TEXT NOT NULL, -- 题目
+        gray_banlance REAL NOT NULL, -- 灰平衡彩度差
+        cyan_expend REAL NOT NULL, -- 青网扩
+        cyan_density REAL NOT NULL, -- 青密度
+        cyan_difference REAL NOT NULL, -- 青色色差
+        magenta_expend REAL NOT NULL, -- 品网扩
+        magenta_density REAL NOT NULL, -- 品密度
+        magenta_difference REAL NOT NULL, -- 品色色差
+        yellow_expend REAL NOT NULL, -- 黄网扩
+        yellow_density REAL NOT NULL, -- 黄密度
+        yellow_difference REAL NOT NULL, -- 黄色色差
+        black_expend REAL NOT NULL, -- 黑网扩
+        black_density REAL NOT NULL, -- 黑密度
+        black_difference REAL NOT NULL, -- 黑色色差
+        header_M REAL NOT NULL, -- 报头M密度
+        header_Y REAL NOT NULL, -- 报头Y密度
+        header_difference REAL NOT NULL, -- 报头色差
+        middle_expend REAL NOT NULL, -- 中间调扩展值
+        FOREIGN KEY (author_id) REFERENCES user (id)
+      );*/
 
       function doit(type, fn, dl) 
       {
@@ -258,9 +284,47 @@
       function analyze_to_result() 
       {
         var elt = document.getElementById('data-table');
-        var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
-        var table=wb.Sheets["Sheet JS"];
-        console.log(table['B2'].v)
+        var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"},);
+        const sheet2JSONOpts = {
+            /** Default value for null/undefined values */
+            defval: 'null',//Assign empty string to defval
+            header:1
+        }
+        var ws=XLSX.utils.sheet_to_json(wb.Sheets['Sheet JS'],sheet2JSONOpts);
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.responseType='json';
+        xmlhttp.open('POST','/analyze');
+        //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        console.log(ws);
+        xmlhttp.send(JSON.stringify(ws));
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4){
+                if(xmlhttp.status>=200&&xmlhttp.status<300){
+                    //console.log(xmlhttp.response);
+                    //if(xmlhttp.response.code===1){
+                    //    window.location.href='http://127.0.0.1:5000/hello'
+                    //}
+                }
+            }
+        }
+        /*var t=wb.Sheets["Sheet JS"];
+        const cyan_density=t['C9'].v;
+        const magenta_density=t['D10'].v;
+        const yellow_density=t['E11'].v;
+        const black_density=t['B12'].v;
+        const header_M=t['D13'].v;
+        const header_Y=t['E13'].v;
+        const cyan_difference=Math.sqrt()*/
       }
 
     </script>

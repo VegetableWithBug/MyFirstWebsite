@@ -71,10 +71,20 @@ def create_app(test_config=None):
     def hello():
         return render_template('hello.html')
 
-    @app.route('/analyze')
+    @app.route('/analyze',methods=('GET', 'POST'))
     @login_required
     def analyze():
-        return render_template('analyze.html')
+        if request.method == 'POST':
+            code=-1
+            data=json.loads(request.get_data())
+            print(data)
+            json_data={
+                'code':code,
+            }
+            answer=json.dumps(json_data)
+            return(Response(response=answer))
+        elif request.method == 'GET':
+            return render_template('analyze.html')
 
 
     @app.route('/settings')
@@ -156,8 +166,9 @@ def create_app(test_config=None):
                         x=db.execute(
                             'SELECT id FROM user WHERE username = ?', (username,)
                         )
+                        db.commit()
                         db.execute(
-                            'INSERT INTO settings (setting_name,author_id,header_L,header_a,header_b,header_magenta ,header_yellow ,cyan_standard magenta_standard ,yellow_standard ,black_standard ,cyan_expend ,magenta_expend,yellow_expend ,black_expend ,cyan_L ,cyan_a ,cyan_b ,magenta_L ,magenta_a ,magenta_b ,yellow_L ,yellow_a ,yellow_b ,black_L ,black_a ,black_b ,header_density_difference ,header_difference ,middle_expend ,four_expend ,field_density ,field_density_consistency REAL,four_defference ,gray_banlance ,de_standard ,ink_number) VALUES ('默认参数', ?, 50.6,38.5,20.8,0.8,0.8,0.87,0.87,0.85,1.05,17,17,17,17,57,-23,-27,53,48,0,79,-5,60,40,1,4,20,20,20,40,20,0,20,20,0.39,32)',(x,)
+                            'INSERT INTO settings (author_id,setting_name,is_choose,header_L,header_a,header_b,header_magenta ,header_yellow ,cyan_standard,magenta_standard ,yellow_standard ,black_standard ,cyan_expend ,magenta_expend,yellow_expend ,black_expend ,cyan_L ,cyan_a ,cyan_b ,magenta_L ,magenta_a ,magenta_b ,yellow_L ,yellow_a ,yellow_b ,black_L ,black_a ,black_b ,header_density_difference ,header_difference ,middle_expend ,four_expend ,field_density ,field_density_consistency ,four_defference ,gray_banlance ,de_standard ,ink_number) VALUES (?,'默认参数',1,50.6,38.5,20.8,0.8,0.8,0.87,0.87,0.85,1.05,17,17,17,17,57,-23,-27,53,48,0,79,-5,60,40,1,4,20,20,20,40,20,0,20,20,0.39,32)',(x,)
                         )
                         db.commit()
                         """
