@@ -8,164 +8,167 @@
     <link rel="stylesheet" href="static/style_analyze.css">
   </head>
   <body>
-    <div class="analyze">     
-      <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
-      <br>
-      <input type="file"onchange="OpenFile(this)" />
+    <div>
+      <div class="analyze">     
+        <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
+        <br>
+        <input type="file"onchange="OpenFile(this)" />
+      </div>
+      <div class="setting"><a href="/hello" ><img src="./static/settings.ico" alt=""></a></div>
+      <div class="download">
+        <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
+      </div>
+      <div id="AnalyzeSheet">
+        <table id="data-table">
+          <tr>
+            <th></th>
+            <th>青密度</th>
+            <th>品红密度</th>
+            <th>黄密度</th>
+            <th>灰密度</th>
+            <th>L值</th>
+            <th>a值</th>
+            <th>b值</th>
+            <th>印刷机器</th>
+          </tr>
+          <tr>
+            <th>纸白</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+          </tr>
+          <tr>
+            <th>灰色</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>三色灰</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>40%青</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>40%品</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>40%黄</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>40%黑</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>青</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>品</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>黄</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>黑</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>报头</th>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td contentEditable="true"></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="analyze_to_result();">一键分析</button></div>
+      <div id="test"></div>
     </div>
-    <div class="setting"><a href="/hello" ><img src="./static/settings.ico" alt=""></a></div>
-    <div class="download">
-      <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
-    </div>
-    <div id="AnalyzeSheet">
-      <table id="data-table">
-        <tr>
-          <th></th>
-          <th>青密度</th>
-          <th>品红密度</th>
-          <th>黄密度</th>
-          <th>灰密度</th>
-          <th>L值</th>
-          <th>a值</th>
-          <th>b值</th>
-          <th>印刷机器</th>
-        </tr>
-        <tr>
-          <th>纸白</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-        </tr>
-        <tr>
-          <th>灰色</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>三色灰</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>40%青</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>40%品</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>40%黄</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>40%黑</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>青</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>品</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>黄</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>黑</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>报头</th>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td contentEditable="true"></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="doit('xlsx');">一键分析</button></div>
-    <div id="test"></div>
+    
     <script>
      /* var ws_data = [
       [ "纸白", "", "", "", "", "", "",""],
@@ -250,6 +253,14 @@
         return dl ?
           XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
           XLSX.writeFile(wb, fn || ('test.' + (type || 'xlsx')));
+      }
+
+      function analyze_to_result() 
+      {
+        var elt = document.getElementById('data-table');
+        var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
+        var table=wb.Sheets["Sheet JS"];
+        console.log(table['B2'].v)
       }
 
     </script>

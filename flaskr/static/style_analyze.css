@@ -10,15 +10,17 @@
     text-align: center;
   }
 
-  #data-table{
+#data-table{
     border: 2px solid  black;
     border-collapse: collapse;
     display: flex;
     justify-content: center;
-  }
+}
 
 
 body{
+    display:flex;
+    justify-content:center;
     height: 100%;
     align-items: center;
     font-family: miaowu;
@@ -104,3 +106,68 @@ a {
   cursor: pointer;
   color: black;
 }
+
+.setting-table{
+  height: 90%;
+  margin: 1rem;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem 1.5rem 2rem;
+  line-height: 1rem;
+  align-items: center;
+  text-align: center;
+  font-size: 0.9rem;
+  background: whitesmoke;
+}
+
+.setting-table th{
+  width: 7rem;
+  border: none;
+  text-align: left;
+}
+
+.setting-table td{
+  text-align: left;
+  width: 5rem;
+  border: none;
+}
+
+.setting_button{
+  border: none;
+  outline: none;
+  margin: 2.5rem 2rem 0.8rem 2rem;
+  width: 30%;
+  height: 2rem;
+  border-radius: 3rem;
+  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+  cursor: pointer;
+  color: black;
+}
+
+/*.setting-table_changed{
+  height: 90%;
+  margin: 1rem;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem 1.5rem 2rem;
+  line-height: 1rem;
+  align-items: center;
+  text-align: center;
+  font-size: 0.9rem;
+  background: whitesmoke;
+  border-collapse: collapse;
+}
+
+.setting-table_changed th{
+  width: 7rem;
+  border: none;
+  text-align: left;
+  border: .1rem solid rgb(181, 154, 254);
+}
+
+.setting-table_changed td{
+  text-align: center;
+  width: 5rem;
+  border: none;
+  border: .1rem solid rgb(181, 154, 254);
+}*/

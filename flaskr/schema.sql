@@ -39,9 +39,10 @@ CREATE TABLE result (
 
 CREATE TABLE settings (
   id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  setting_name TEXT NOT NULL,
   author_id INTEGER NOT NULL,
   header_L REAL NOT NULL,
-  header_a REAL NULL NULL,
+  header_a REAL NOT NULL,
   header_b REAL NOT NULL,
   header_magenta REAL NOT NULL,
   header_yellow REAL NOT NULL,

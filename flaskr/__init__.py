@@ -43,6 +43,8 @@ def create_app(test_config=None):
 
     
     db.init_app(app)
+    app.jinja_env.variable_start_string = '{['
+    app.jinja_env.variable_end_string = ']}'
 
     
     #app.register_blueprint(auth.bp)
@@ -75,9 +77,9 @@ def create_app(test_config=None):
         return render_template('analyze.html')
 
 
-    @app.route('/register')
-    def register():
-        return render_template('register.html')
+    @app.route('/settings')
+    def settings():
+        return render_template('settings.html')
 
     @app.before_request
     def load_logged_in_user():
@@ -150,6 +152,15 @@ def create_app(test_config=None):
                             (email, username, generate_password_hash(password))
                         )
                         db.commit()
+                        """
+                        x=db.execute(
+                            'SELECT id FROM user WHERE username = ?', (username,)
+                        )
+                        db.execute(
+                            'INSERT INTO settings (setting_name,author_id,header_L,header_a,header_b,header_magenta ,header_yellow ,cyan_standard magenta_standard ,yellow_standard ,black_standard ,cyan_expend ,magenta_expend,yellow_expend ,black_expend ,cyan_L ,cyan_a ,cyan_b ,magenta_L ,magenta_a ,magenta_b ,yellow_L ,yellow_a ,yellow_b ,black_L ,black_a ,black_b ,header_density_difference ,header_difference ,middle_expend ,four_expend ,field_density ,field_density_consistency REAL,four_defference ,gray_banlance ,de_standard ,ink_number) VALUES ('默认参数', ?, 50.6,38.5,20.8,0.8,0.8,0.87,0.87,0.85,1.05,17,17,17,17,57,-23,-27,53,48,0,79,-5,60,40,1,4,20,20,20,40,20,0,20,20,0.39,32)',(x,)
+                        )
+                        db.commit()
+                        """
                         error='注册成功！'
             data={
                 'code':code,
