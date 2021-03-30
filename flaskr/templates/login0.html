@@ -106,7 +106,8 @@ function RegisterPost(){
                 console.log(xmlhttp.response);
                 document.getElementById('msg').innerHTML=str;
                 if(str=='注册成功！'){
-                    vue.go("login")
+                    vue.go("login");
+                    alert('注册成功');
                 }
             }
         }

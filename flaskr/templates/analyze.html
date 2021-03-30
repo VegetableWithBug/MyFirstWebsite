@@ -245,32 +245,7 @@
         XLSX.utils.book_append_sheet(workbook,worksheet,'table1');
         XLSX.writeFile(workbook,'test.xlsx');
       }
-      CREATE TABLE result (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        author_id INTEGER NOT NULL,
-        created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, --创建时间
-        score INTEGER NOT NULL, -- 得分
-        machine TEXT, -- 机器名称
-        title TEXT NOT NULL, -- 题目
-        gray_banlance REAL NOT NULL, -- 灰平衡彩度差
-        cyan_expend REAL NOT NULL, -- 青网扩
-        cyan_density REAL NOT NULL, -- 青密度
-        cyan_difference REAL NOT NULL, -- 青色色差
-        magenta_expend REAL NOT NULL, -- 品网扩
-        magenta_density REAL NOT NULL, -- 品密度
-        magenta_difference REAL NOT NULL, -- 品色色差
-        yellow_expend REAL NOT NULL, -- 黄网扩
-        yellow_density REAL NOT NULL, -- 黄密度
-        yellow_difference REAL NOT NULL, -- 黄色色差
-        black_expend REAL NOT NULL, -- 黑网扩
-        black_density REAL NOT NULL, -- 黑密度
-        black_difference REAL NOT NULL, -- 黑色色差
-        header_M REAL NOT NULL, -- 报头M密度
-        header_Y REAL NOT NULL, -- 报头Y密度
-        header_difference REAL NOT NULL, -- 报头色差
-        middle_expend REAL NOT NULL, -- 中间调扩展值
-        FOREIGN KEY (author_id) REFERENCES user (id)
-      );*/
+      */
 
       function doit(type, fn, dl) 
       {
