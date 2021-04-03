@@ -7,14 +7,67 @@ from flaskr.db import get_db
 from functools import wraps
 from . import db
 from . import auth
-from math import sqrt,pow,abs
-from score import (score_one,score_two,get_density_score,get_difference_score,get_expend_score,get_gray_score,get_header_density_score,get_header_difference_score,get_middle_score)
+#from . import score
+from math import sqrt,pow
+#from score import (score_one,score_two,get_density_score,get_difference_score,get_expend_score,get_gray_score,get_header_density_score,get_header_difference_score,get_middle_score)
 import traceback
 
 #venv\Scripts\activate
 #$env:FLASK_APP = "flaskr"
 #$env:FLASK_ENV = "development"
 #flask run
+
+#计算网扩值
+def expend(x,wx,y):
+    return 100*((1-pow(10,wx-x))/(1-pow(10,wx-y))-0.4)
+#通用分数计算函数1
+def score_one(weightScore, currentValue, up):
+    score=weightScore
+    if(currentValue>0):
+        score=weightScore-pow(2,int(currentValue/up))
+        if(score<0):
+            return 0
+    return score
+#通用分数计算函数2
+def score_two(weightScore, currentValue, up, down, level_up, level_down):
+    score=weightScore
+    if(currentValue>up):
+        score=weightScore-pow(2,int((currentValue-up)/level_up))
+    elif(currentValue<down):
+        score=weightScore-pow(2,int((down-currentValue)/level_down))
+    if(score<0):
+        return 0
+    return score
+#计算密度得分
+def get_density_score(kk,cc,mm,yy,field_density):
+    weight=field_density/4
+    S_Dc_c = score_two(weight, cc, 0.9, 0.85, 0.02, 0.015)
+    S_Dm_m = score_two(weight, mm, 0.9, 0.85, 0.02, 0.015)
+    S_Dy_y = score_two(weight, yy, 0.9, 0.8, 0.02, 0.015)
+    S_Dk_k = score_two(weight, kk, 1.1, 1.0, 0.03, 0.02)
+    return (S_Dc_c + S_Dm_m + S_Dy_y + S_Dk_k)
+#计算扩展值得分
+def get_expend_score(cyan_expend,magenta_expend,yellow_expend,black_expend,four_expend):
+    weight=four_expend/4
+    S_F40=score_two(weight, cyan_expend, 22, 14, 2, 2)+score_two(weight, magenta_expend, 22, 14, 2, 2)+score_two(weight, yellow_expend, 22, 14, 2, 2)+score_two(weight, black_expend, 22, 14, 2, 2)
+    return S_F40
+#计算中间值得分
+def get_middle_score(middle_expend,middle_expend_s):
+    return score_one(middle_expend_s, middle_expend - 3, 1)
+#计算报头密度得分
+def get_header_density_score(tm,ty,header_magenta,header_yellow,header_density_difference):
+    dtD = sqrt(pow(tm-header_magenta,2)+pow(ty-header_yellow),2)
+    return score_one(header_density_difference, dtD - 0.1, 0.01)
+#计算色差得分
+def get_difference_score(cyan_difference,magenta_difference,yellow_difference,black_difference,gray_banlance_s):
+    weight=gray_banlance_s/4
+    return score_one(weight,abs(cyan_difference)-3,1)+score_one(weight,abs(magenta_difference)-5,1)+score_one(weight,abs(yellow_difference)-4,1)+score_one(weight,abs(black_difference)-3,1)
+#计算灰平衡彩度差得分
+def get_gray_score(gray_banlance,gray_banlance_s):
+    return score_one(gray_banlance_s,gray_banlance-3,1)
+#计算报头色度得分
+def get_header_difference_score(header_difference,header_difference_s):
+    return score_one(header_difference_s,header_difference-2,1.5)
 
 
 def create_app(test_config=None):
@@ -92,18 +145,10 @@ def create_app(test_config=None):
                 ['tk','tc','tm','ty','tl','ta','tb'],
             ]
             data_dict={}
-            """cyan_density=data[8][2]
-            magenta_density=data[9][3]
-            yellow_density=data[10][4]
-            black_density=data[11][1]
-            header_M=data[12][3]
-            header_Y=data[12][4]
-            """
             for i in range(1,len(data)):
                 for j in range(1,len(data[i])):
                     data_dict[name[i-1][j-1]]=data[i][j]
             #print(data_dict)
-            
             try:
                 #先获取直接取得的值
                 cyan_density=data_dict['cc']
@@ -114,10 +159,10 @@ def create_app(test_config=None):
                 header_Y=data_dict['ty']
 
                 #计算没有lab的部分
-                cyan_expend=expend(data_dict['c4c'],data_dict['wc'],data_dict['cc'])
-                magenta_expend=expend(data_dict['m4m'],data_dict['wm'],data_dict['mm'])
-                yellow_expend=expend(data_dict['y4y'],data_dict['wy'],data_dict['yy'])
-                black_expend=expend(data_dict['k4k'],data_dict['wk'],data_dict['kk'])
+                cyan_expend=expend(data_dict['c4c'],data_dict['wc'],cyan_density)
+                magenta_expend=expend(data_dict['m4m'],data_dict['wm'],magenta_density)
+                yellow_expend=expend(data_dict['y4y'],data_dict['wy'],yellow_density)
+                black_expend=expend(data_dict['k4k'],data_dict['wk'],black_density)
                 expend_list=[cyan_expend,magenta_expend,yellow_expend]
                 middle_expend=max(expend_list)-min(expend_list)
                 gray_banlance=abs(sqrt(pow(data_dict['ga'],2)+pow(data_dict['gb'],2))-sqrt(pow(data_dict['ha'],2)+pow(data_dict['hb'],2)))
@@ -141,6 +186,7 @@ def create_app(test_config=None):
                 try:#计算无lab时的得分
                     header_density_score=get_header_density_score(data_dict['tm'],data_dict['ty'],setting['header_magenta'],setting['header_yellow'],setting['header_density_difference'])
                     score=density_score+expend_score+middle_score+header_density_score
+                    print(score)
                 except Exception as e:
                     traceback.print_exc()
             else:                   
@@ -154,7 +200,9 @@ def create_app(test_config=None):
                     difference_score=get_difference_score(cyan_difference,magenta_difference,yellow_difference,black_difference,setting['gray_banlance'])
                     gray_score=get_gray_score(gray_banlance,setting['gray_banlance'])
                     header_difference_score=get_header_difference_score(header_difference,setting['header_difference'])
-                    score=100*(density_score+expend_score+middle_score+difference_score+gray_score+header_difference_score*2)/(setting['header_density_difference']+setting['header_difference']+setting['middle_expend']+setting['four_expend']+setting['field_density ']+setting['four_defference']+setting['gray_banlance'])
+                    score=100*(density_score+expend_score+middle_score+difference_score+gray_score+header_difference_score*2)/(setting['header_density_difference']+setting['header_difference']+setting['middle_expend']+setting['four_expend']+setting['field_density']+setting['four_defference']+setting['gray_banlance'])
+                    #print(gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend)
+                    print(score)
                 except Exception as e:
                     print(e)
                     #print ("repr(e):\t", repr(e)) #输出 repr(e):	ZeroDivisionError('integer division or modulo by zero',)
