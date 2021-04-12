@@ -4,172 +4,232 @@
     <meta charset="UTF-8">
     <title>报纸质量评价系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./static/vue.js"></script>
     <script src="./static/dist/xlsx.core.min.js"></script>
     <link rel="stylesheet" href="static/style_analyze.css">
   </head>
   <body>
-    <div>
-      <div class="analyze">     
-        <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
-        <br>
-        <input type="file"onchange="OpenFile(this)" />
+    <div id='app_analyze'>
+      <div v-if='active === "analyze"'>
+        <div class="analyze" >     
+          <h3>欢迎来到分析页面，请手动填写或上传您要分析的文件数据（.xlsx）</h3>
+          <br>
+          <input type="file"onchange="OpenFile(this)" />
+        </div>
+        <div class="setting"><a href="/settings" ><img src="./static/settings.ico" alt=""></a></div>
+        <div class="download">
+          <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
+        </div>
+        <div id="AnalyzeSheet">
+          <table id="data-table">
+            <tr>
+              <th></th>
+              <th>青密度</th>
+              <th>品红密度</th>
+              <th>黄密度</th>
+              <th>灰密度</th>
+              <th>L值</th>
+              <th>a值</th>
+              <th>b值</th>
+              <th>印刷机器</th>
+            </tr>
+            <tr>
+              <th>纸白</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+            </tr>
+            <tr>
+              <th>灰色</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>三色灰</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>40%青</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>40%品</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>40%黄</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>40%黑</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>青</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>品</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>黄</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>黑</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>报头</th>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td contentEditable="true"></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="analyze_to_result()">一键分析</button></div>
       </div>
-      <div class="setting"><a href="/settings" ><img src="./static/settings.ico" alt=""></a></div>
-      <div class="download">
-        <p>请使用固定格式的表格模板。没有文档模板？<a href="">点此下载</a></p>
+      <div v-if='active === "result"' class='result'>
+        <div class='top'>
+          <div class='left'>
+            <h1>本次分析的得分为：{{score}}</h1>
+          </div>
+          <div class='right'>
+            <table class='result_table'>
+              <tr><th>灰平衡彩度差</th><th>中间调扩展值</th><th>报头M密度</th><th>报头Y密度</th><th>报头色差</th></tr>
+              <tr><td>{{gray_banlance}}</td><td>{{middle_expend}}</td><td>{{header_M}}</td><td>{{header_Y}}</td><td>{{header_difference}}</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class='middle'>
+          <table class='result_table'>
+            <tr><th>青网扩</th><th>青密度</th><th>青色色差</th><th>品网扩</th><th>品密度</th><th>品色色差</th><th>黄网扩</th><th>黄密度</th><th>黄色色差</th><th>黑网扩</th><th>黑密度</th><th>黑色色差</th></tr>
+            <tr><td>{{cyan_expend}}</td><td>{{cyan_density}}</td><td>{{cyan_difference}}</td><td>{{magenta_expend}}</td><td>{{magenta_density}}</td><td>{{magenta_difference}}</td><td>{{yellow_expend}}</td><td>{{yellow_density}}</td><td>{{yellow_difference}}</td><td>{{black_expend}}</td><td>{{black_density}}</td><td>{{black_difference}}</td></tr>
+          </table>
+        </div>
+        <div class='bottom'><button @click="go('analyze')">重新分析</button><button>结束分析</button></div>
       </div>
-      <div id="AnalyzeSheet">
-        <table id="data-table">
-          <tr>
-            <th></th>
-            <th>青密度</th>
-            <th>品红密度</th>
-            <th>黄密度</th>
-            <th>灰密度</th>
-            <th>L值</th>
-            <th>a值</th>
-            <th>b值</th>
-            <th>印刷机器</th>
-          </tr>
-          <tr>
-            <th>纸白</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-          </tr>
-          <tr>
-            <th>灰色</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>三色灰</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>40%青</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>40%品</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>40%黄</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>40%黑</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>青</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>品</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>黄</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>黑</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>报头</th>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td contentEditable="true"></td>
-            <td></td>
-          </tr>
-        </table>
-      </div>
-      <div id="analyze_b"><button style="display:block;margin:0 auto" onclick="analyze_to_result()">一键分析</button></div>
-      <div id="test"></div>
+
     </div>
+
     
     <script>
+      var vue3 = new Vue({
+        el: '#app_analyze',
+        data: {
+            active: 'analyze',
+            code:0,
+            score:0,
+            gray_banlance:0,
+            cyan_expend:0,
+            cyan_density:0,
+            cyan_difference:0,
+            magenta_expend:0,
+            magenta_density:0,
+            magenta_difference:0,
+            yellow_expend:0,
+            yellow_density:0,
+            yellow_difference:0,
+            black_expend:0,
+            black_density:0,
+            black_difference:0,
+            header_M:0,
+            header_Y:0,
+            header_difference:0,
+            middle_expend:0,
+        },
+        methods: {
+            go (type) {
+                this.active = type
+            },    
+            //change(data){
+            //  for(let key in data){
+            //   this.key=data[key];
+            // }
+            //}
+        },
+
+    })
      /* var ws_data = [
       [ "纸白", "", "", "", "", "", "",""],
       [ "灰色", "", "", "", "", "", "",""],
@@ -286,9 +346,30 @@
             if(xmlhttp.readyState === 4){
                 if(xmlhttp.status>=200&&xmlhttp.status<300){
                     //console.log(xmlhttp.response);
-                    //if(xmlhttp.response.code===1){
-                    //    window.location.href='http://127.0.0.1:5000/hello'
-                    //}
+                    if(xmlhttp.response.code===1){
+                      vue3.score=xmlhttp.response.score;
+                      vue3.middle_expend=xmlhttp.response.middle_expend.toFixed(2);
+                      vue3.cyan_expend=xmlhttp.response.cyan_expend.toFixed(2);
+                      vue3.magenta_expend=xmlhttp.response.magenta_expend.toFixed(2);
+                      vue3.yellow_expend=xmlhttp.response.yellow_expend.toFixed(2);
+                      vue3.black_expend=xmlhttp.response.black_expend.toFixed(2);
+                      vue3.cyan_density=xmlhttp.response.cyan_density.toFixed(2);
+                      vue3.cyan_difference=xmlhttp.response.cyan_difference.toFixed(2);
+                      vue3.magenta_density=xmlhttp.response.magenta_density.toFixed(2);
+                      vue3.magenta_difference=xmlhttp.response.magenta_difference.toFixed(2);
+                      vue3.yellow_density=xmlhttp.response.yellow_density.toFixed(2);
+                      vue3.yellow_difference=xmlhttp.response.yellow_difference.toFixed(2);
+                      vue3.black_density=xmlhttp.response.black_density.toFixed(2);
+                      vue3.black_difference=xmlhttp.response.black_difference.toFixed(2);
+                      vue3.header_M=xmlhttp.response.header_M.toFixed(2);
+                      vue3.header_Y=xmlhttp.response.header_Y.toFixed(2);
+                      vue3.header_difference=xmlhttp.response.header_difference.toFixed(2);
+                      vue3.gray_banlance=xmlhttp.response.gray_banlance.toFixed(2);
+                      vue3.go("result");
+                    }
+                    else if(xmlhttp.response.code===-1){
+                      alert("测量数据格式错误！")
+                    }
                 }
             }
         }

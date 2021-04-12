@@ -144,6 +144,63 @@ a {
   color: black;
 }
 
+.result_table{
+  border: 2px solid  black;
+  border-collapse: collapse;
+}
+
+.result_table td,th{
+  border: 1px solid rgb(181, 154, 254);
+  width: 7.5rem;
+  height: 2rem;
+  text-align: center;
+}
+
+.top{
+  height: 30%;
+  text-align: center;
+}
+
+.right{
+  float: right;
+  margin-right: 0;
+}
+
+.left{
+  float: left;
+}
+
+.middle{
+  text-align: center;
+  height: 30%;
+  float: left;
+}
+
+.bottom{
+  height: 30%;
+  position: absolute;
+  bottom: 8rem;
+  left: 25rem;
+  text-align: center;
+}
+
+.bottom button{
+  border: none;
+  outline: none;
+  margin: 2.5rem 2rem 2.5rem 2rem;
+  width: 14rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+  cursor: pointer;
+  color: black;
+}
+
+.bottom button:hover {
+  color: white;
+  box-shadow: 0 0 8px rgb(181, 154, 254);
+}
+
 /*.setting-table_changed{
   height: 90%;
   margin: 1rem;

@@ -149,6 +149,10 @@ def create_app(test_config=None):
                 for j in range(1,len(data[i])):
                     data_dict[name[i-1][j-1]]=data[i][j]
             #print(data_dict)
+            machine='null'
+            if(len(data[0])==8):
+                machine=data_dict['machine']
+
             try:
                 #先获取直接取得的值
                 cyan_density=data_dict['cc']
@@ -182,7 +186,7 @@ def create_app(test_config=None):
             except Exception as e:
                 traceback.print_exc() 
 
-            if data_dict['cl'] is None:
+            if 'cl' not in data_dict.keys():
                 try:#计算无lab时的得分
                     header_density_score=get_header_density_score(data_dict['tm'],data_dict['ty'],setting['header_magenta'],setting['header_yellow'],setting['header_density_difference'])
                     score=density_score+expend_score+middle_score+header_density_score
@@ -202,17 +206,44 @@ def create_app(test_config=None):
                     header_difference_score=get_header_difference_score(header_difference,setting['header_difference'])
                     score=100*(density_score+expend_score+middle_score+difference_score+gray_score+header_difference_score*2)/(setting['header_density_difference']+setting['header_difference']+setting['middle_expend']+setting['four_expend']+setting['field_density']+setting['four_defference']+setting['gray_banlance'])
                     #print(gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend)
-                    print(score)
+                    #print(score)
+                    db.execute(
+                        'INSERT INTO result (title,author_id,score,machine,gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend) VALUES ("test",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(user_id,score,machine,gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend)
+                    )
+                    db.commit()
+                    code=1
                 except Exception as e:
                     print(e)
                     #print ("repr(e):\t", repr(e)) #输出 repr(e):	ZeroDivisionError('integer division or modulo by zero',)
                     traceback.print_exc()
                     #print(data_dict)
 
-            
-            json_data={
-                'code':code,
-            }
+            if code==1:
+                json_data={
+                    'code':code,
+                    'score':score,
+                    'gray_banlance':gray_banlance,
+                    'cyan_expend':cyan_expend,
+                    'cyan_density':cyan_density,
+                    'cyan_difference':cyan_difference,
+                    'magenta_expend':magenta_expend,
+                    'magenta_density':magenta_density,
+                    'magenta_difference':magenta_difference,
+                    'yellow_expend':yellow_expend,
+                    'yellow_density':yellow_density,
+                    'yellow_difference':yellow_difference,
+                    'black_expend':black_expend,
+                    'black_density':black_density,
+                    'black_difference':black_difference,
+                    'header_M':header_M,
+                    'header_Y':header_Y,
+                    'header_difference':header_difference,
+                    'middle_expend':middle_expend,
+                }
+            else:
+                json_data={
+                    'code':code,
+                }
             answer=json.dumps(json_data)
             return(Response(response=answer))
         elif request.method == 'GET':
@@ -297,7 +328,7 @@ def create_app(test_config=None):
                         x=db.execute(
                             'SELECT id FROM user WHERE username = ?', (username,)
                         ).fetchone()
-                        print(x['id'])
+                        #print(x['id'])
                         db.execute(
                             'INSERT INTO settings (author_id,setting_name,is_choose,header_L,header_a,header_b,header_magenta ,header_yellow,cyan_standard,magenta_standard,yellow_standard,black_standard,cyan_expend,magenta_expend,yellow_expend,black_expend,cyan_L,cyan_a,cyan_b,magenta_L,magenta_a,magenta_b,yellow_L,yellow_a,yellow_b,black_L,black_a,black_b,header_density_difference,header_difference,middle_expend,four_expend,field_density,field_density_consistency,four_defference,gray_banlance,de_standard,ink_number) VALUES (?,"默认参数",1,50.6,38.5,20.8,0.8,0.8,0.87,0.87,0.85,1.05,17,17,17,17,57,-23,-27,53,48,0,79,-5,60,40,1,4,20,20,20,40,20,0,20,20,0.39,32)',(x['id'],)
                         )
