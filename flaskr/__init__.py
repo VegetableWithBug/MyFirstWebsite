@@ -250,9 +250,24 @@ def create_app(test_config=None):
             return render_template('analyze.html')
 
 
-    @app.route('/settings')
+    @app.route('/settings',methods=('GET', 'POST'))
     def settings():
-        return render_template('settings.html')
+        if request.method == 'GET':
+            return render_template('settings.html')
+        elif request.method == 'POST':
+            text=json.loads(request.get_data())
+            if text['type']=="init":
+                user_id = session.get('user_id')
+                db = get_db()
+                setting = db.execute(
+                    'SELECT * FROM settings WHERE author_id = ?', (user_id,)
+                ).fetchone()
+                db.commit()
+                answer={}
+                for key in setting.keys():
+                    answer[key]=setting[key]
+                answer=json.dumps(answer)
+                return Response(response=answer)
 
     @app.before_request
     def load_logged_in_user():

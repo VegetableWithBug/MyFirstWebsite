@@ -14,65 +14,34 @@
 
 <body>
     <div id="show-settings"> 
-        <!--<div class="setting_table">
-            <table>  
-                <tr><th colspan="4">{{tittle}}</th></tr>
-                <tr><th>报头L值</th><td>{{header_L}}</td><th>黄标准L值</th><td>{{yellow_L}}</td></tr>
-                <tr><th>报头a值</th><td>{{header_a}}</td><th>黄标准a值</th><td>{{yellow_a}}</td></tr>
-                <tr><th>报头b值</th><td>{{header_b}}</td><th>黄标准b值</th><td>{{yellow_b}}</td></tr>
-                <tr><th>报头品密度</th><td>{{header_magenta}}</td><th>黑标准L值</th><td>{{black_L}}</td></tr>
-                <tr><th>报头黄密度</th><td>{{header_yellow}}</td><th>黑标准a值</th><td>{{black_a}}</td></tr>
-                <tr><th>青标准密度</th><td>{{cyan_standard}}</td><th>黑标准b值</th><td>{{black_b}}</td></tr>
-                <tr><th>品标准密度</th><td>{{magenta_standard}}</td><th>报头密度差</th><td>{{header_density_difference}}</td></tr>
-                <tr><th>黄标准密度</th><td>{{yellow_standard}}</td><th>报头色差</th><td>{{header_difference}}</td></tr>
-                <tr><th>黑标准密度</th><td>{{black_standard}}</td><th>中间调扩展</th><td>{{middle_expend}}</td></tr>
-                <tr><th>青标准网点扩大</th><td>{{cyan_expend}}</td><th>四色网点扩大</th><td>{{four_expend}}</td></tr>
-                <tr><th>品标准网点扩大</th><td>{{maenta_expend}}</td><th>实地密度</th><td>{{field_density}}</td></tr>
-                <tr><th>黄标准网点扩大</th><td>{{yellow_expend}}</td><th>实地密度一致性</th><td>{{field_density_consistency}}</td></tr>
-                <tr><th>黑标准网点扩大</th><td>{{black_expend}}</td><th>四色色差</th><td>{{four_defference}}</td></tr>
-                <tr><th>青标准L值</th><td>{{cyan_L}}</td><th>灰平衡</th><td>{{gray_banlance}}</td></tr>
-                <tr><th>青标准a值</th><td>{{cyan_a}}</td><th>的字标准密度</th><td>{{de_standard}}</td></tr>
-                <tr><th>青标准b值</th><td>{{cyan_b}}</td><th>对开墨条数</th><td>{{ink_number}}</td></tr>
-                <tr><th>品标准L值</th><td>{{magenta_L}}</td></tr>
-                <tr><th>品标准a值</th><td>{{magenta_a}}</td></tr>
-                <tr><th>品标准b值</th><td>{{magenta_b}}</td></tr>
-            </table>
-        </div>-->
         <setting-table  v-bind="post"></setting-table>
     </div>
 
     <script>
         var setting_table={
-            props: ['tittle','header_L','header_a','yellow_L',],
+            props: ['setting_name','active','header_L','header_a','header_b','header_magenta','header_yellow','cyan_standard','magenta_standard','yellow_standard','black_standard','cyan_expend','magenta_expend','yellow_expend','black_expend','cyan_L','cyan_a','cyan_b','magenta_L','magenta_a','magenta_b','yellow_L','yellow_a','yellow_b','black_L','black_a','black_b','header_density_difference','header_difference','middle_expend','four_expend','field_density','four_defference','gray_banlance','de_standard','ink_number','field_density_consistency'],
             template: `
                 <div class="setting-table">
                     <table>
-                        <tr><td colspan="4" style="font-size:1.5rem;text-align:center">{{tittle}}</td></tr>
-                        <tr><th colspan="4"> </th></tr>
-                        <tr><th>报头L值</th><td >{{header_L}}</td><th>黄标准L值</th><td>{{yellow_L}}</td></tr>
-                        <tr><th>报头a值</th><td>{{header_a}}</td><th>黄标准a值</th><td>{{yellow_a}}</td></tr>
-                        <tr><th>报头b值</th><td>{{header_b}}</td><th>黄标准b值</th><td>{{yellow_b}}</td></tr>
-                        <tr><th>报头品密度</th><td>{{header_magenta}}</td><th>黑标准L值</th><td>{{black_L}}</td></tr>
-                        <tr><th>报头黄密度</th><td>{{header_yellow}}</td><th>黑标准a值</th><td>{{black_a}}</td></tr>
-                        <tr><th>青标准密度</th><td>{{cyan_standard}}</td><th>黑标准b值</th><td>{{black_b}}</td></tr>
-                        <tr><th>品标准密度</th><td>{{magenta_standard}}</td><th>报头密度差</th><td>{{header_density_difference}}</td></tr>
-                        <tr><th>黄标准密度</th><td>{{yellow_standard}}</td><th>报头色差</th><td>{{header_difference}}</td></tr>
-                        <tr><th>黑标准密度</th><td>{{black_standard}}</td><th>中间调扩展</th><td>{{middle_expend}}</td></tr>
-                        <tr><th>青标准网点扩大</th><td>{{cyan_expend}}</td><th>四色网点扩大</th><td>{{four_expend}}</td></tr>
-                        <tr><th>品标准网点扩大</th><td>{{maenta_expend}}</td><th>实地密度</th><td>{{field_density}}</td></tr>
-                        <tr><th>黄标准网点扩大</th><td>{{yellow_expend}}</td><th>实地密度一致性</th><td>{{field_density_consistency}}</td></tr>
-                        <tr><th>黑标准网点扩大</th><td>{{black_expend}}</td><th>四色色差</th><td>{{four_defference}}</td></tr>
-                        <tr><th>青标准L值</th><td>{{cyan_L}}</td><th>灰平衡</th><td>{{gray_banlance}}</td></tr>
-                        <tr><th>青标准a值</th><td>{{cyan_a}}</td><th>的字标准密度</th><td>{{de_standard}}</td></tr>
-                        <tr><th>青标准b值</th><td>{{cyan_b}}</td><th>对开墨条数</th><td>{{ink_number}}</td></tr>
-                        <tr><th>品标准L值</th><td>{{magenta_L}}</td></tr>
-                        <tr><th>品标准a值</th><td>{{magenta_a}}</td></tr>
-                        <tr><th>品标准b值</th><td>{{magenta_b}}</td></tr>
+                        <tr><td colspan="8">{{setting_name}}</td></tr>
+                        <tr><th>报头L值</th><td>{{header_L}}</td><th>青标准网点扩大</th><td>{{cyan_expend}}</td><th>品标准b值</th><td>{{magenta_b}}</td><th>中间调扩展</th><td>{{middle_expend}}</td></tr>
+                        <tr><th>报头a值</th><td>{{header_a}}</td><th>品标准网点扩大</th><td>{{magenta_expend}}</td><th>黄标准L值</th><td>{{yellow_L}}</td><th>四色网点扩大</th><td>{{four_expend}}</td></tr>
+                        <tr><th>报头b值</th><td>{{header_b}}</td><th>黄标准网点扩大</th><td>{{yellow_expend}}</td><th>黄标准a值</th><td>{{yellow_a}}</td><th>实地密度</th><td>{{field_density}}</td></tr>
+                        <tr><th>报头品密度</th><td>{{header_magenta}}</td><th>黑标准网点扩大</th><td>{{black_expend}}</td><th>黄标准b值</th><td>{{yellow_b}}</td><th>实地密度一致性</th><td>{{field_density_consistency}}</td></tr>
+                        <tr><th>报头黄密度</th><td>{{header_yellow}}</td><th>青标准L值</th><td>{{cyan_L}}</td><th>黑标准L值</th><td>{{black_L}}</td><th>四色色差</th><td>{{four_defference}}</td></tr>
+                        <tr><th>青标准密度</th><td>{{cyan_standard}}</td><th>青标准a值</th><td>{{cyan_a}}</td><th>黑标准a值</th><td>{{black_a}}</td><th>灰平衡</th><td>{{gray_banlance}}</td></tr>
+                        <tr><th>品标准密度</th><td>{{magenta_standard}}</td><th>青标准b值</th><td>{{cyan_b}}</td><th>黑标准b值</th><td>{{black_b}}</td><th>的字标准密度</th><td>{{de_standard}}</td></tr>
+                        <tr><th>黄标准密度</th><td>{{yellow_standard}}</td><th>品标准L值</th><td>{{magenta_L}}</td><th>报头密度差</th><td>{{header_density_difference}}</td><th>对开墨条数</th><td>{{ink_number}}</td></tr>
+                        <tr><th>黑标准密度</th><td>{{black_standard}}</td><th>品标准a值</th><td>{{magenta_a}}</td><th>报头色差</th><td>{{header_difference}}</td></tr>
                     </table>
-                    <button class="setting_button" v-on:click="change_setting">修改设置</button>
+                    <button class="setting_button" v-if='active === "before"' v-on:click="change_setting">修改设置</button>
+                    <button class="setting_button" v-if='active === "after"' v-on:click="save_setting">保存设置</button>
                 </div>
                 `,
                 methods:{
+                    go (type) {
+                        active = type
+                    }, 
                     change_setting:function(){
                         var table_s=document.getElementById('show-settings');
                         var tds=document.getElementsByTagName('td');
@@ -82,24 +51,114 @@
                         }
                         //table_s.className='setting-table_changed'
                         //console.log('ssss');
-                        
-                    }
+                        vue2.go('after');
+                    },
+                    save_setting:function(){
+                        var table_s=document.getElementById('show-settings');
+                        var tds=document.getElementsByTagName('td');
+                        for(var i = 0; i < tds.length; i++){
+                            tds[i].contentEditable=true;
+                            tds[i].setAttribute('style', 'border: none');
+                        }
+                        //table_s.className='setting-table_changed'
+                        //console.log('ssss');
+                        vue2.go('before');
+                    },
+                    
                 }
         };
         var vue2=new Vue({
             el: '#show-settings',
             data: {
                     post:{
-                        tittle:"默认设置",
-                        header_L:50.6,
-                        header_a:38.5,
+                        setting_name:"设置",
+                        active:'before',
+                        author_id:0,
+                        id:0,
+                        black_L:0,
+                        black_a:0,
+                        black_b:0,
+                        black_expend:0,
+                        black_standard:0,
+                        cyan_L:57,
+                        cyan_a:-23,
+                        cyan_b:-27,
+                        cyan_expend:17,
+                        cyan_standard:0.87,
+                        de_standard:0.39,
+                        field_density:20,
+                        filed_density_consistency:0,
+                        four_defference:0,
+                        four_expend:0,
+                        gray_balance:0,
+                        header_L:0,
+                        header_a:0,
+                        header_b:0,
+                        header_density_difference:0,
+                        header_difference:0,
+                        header_magenta:0.8,
+                        header_yellow:0.8,
+                        ink_number:0,
+                        is_choose:1,
+                        magenta_L:0,
+                        magenta_a:0,
+                        magenta_b:0,
+                        magenta_expend:0,
+                        magenta_standard:0,
+                        middle_expned:0,
                         yellow_L:79,
+                        yellow_a:0,
+                        yellow_b:0,
+                        yellow_expned:0,
+                        yellow_standard:0,
                     },
+            },
+            mounted:function(){
+                
+            },
+            methods:{
+                go (type) {
+                    this.post['active'] = type;
+                }, 
+                get_data:function(){
+                    
+                }
             },
             components:{
                 'setting-table':setting_table,
             },
         })
+
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.responseType='json';
+        xmlhttp.open('POST','/settings');
+        var data={
+            type:'init'
+        }
+        xmlhttp.send(JSON.stringify(data));
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4){
+                if(xmlhttp.status>=200&&xmlhttp.status<300){
+                    console.log(xmlhttp.response); 
+                    x=xmlhttp.response;
+                    //console.log(this.post.yellow_a);
+                    for (key in x){
+                        vue2.post[key]=x[key];
+                    };
+                }
+            }
+        }
+
         
     </script>
 
