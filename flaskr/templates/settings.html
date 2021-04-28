@@ -56,12 +56,42 @@
                     save_setting:function(){
                         var table_s=document.getElementById('show-settings');
                         var tds=document.getElementsByTagName('td');
+                        setting_changed={};
+                        setting_name=["setting_name","header_L","cyan_expend","magenta_b","middle_expend","header_a","magenta_expend","yellow_L","four_expend","header_b","yellow_expend","yellow_a","field_density","header_magenta","black_expend","yellow_b","field_density_consistency","header_yellow","cyan_L","black_L","four_defference","cyan_standard","cyan_a","black_a","gray_banlance","magenta_standard","cyan_b","black_b","de_standard","yellow_standard","magenta_L","header_density_difference","ink_number","black_standard","magenta_a","header_difference"];
                         for(var i = 0; i < tds.length; i++){
+                            setting_changed[setting_name[i]]=tds[i].innerHTML;
                             tds[i].contentEditable=true;
                             tds[i].setAttribute('style', 'border: none');
                         }
-                        //table_s.className='setting-table_changed'
-                        //console.log('ssss');
+                        //console.log(setting_changed);
+                        setting_changed['type']="changed";
+                        setting_changed['id']=vue2.post['id'];
+                        var xmlhttp;
+                        if (window.XMLHttpRequest)
+                        {
+                            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                            xmlhttp=new XMLHttpRequest();
+                        }
+                        else
+                        {
+                            // IE6, IE5 浏览器执行代码
+                            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.responseType='json';
+                        xmlhttp.open('POST','/settings');
+                        xmlhttp.send(JSON.stringify(setting_changed));
+                        xmlhttp.onreadystatechange = function(){
+                            if(xmlhttp.readyState === 4){
+                                if(xmlhttp.status>=200&&xmlhttp.status<300){
+                                    console.log(xmlhttp.response); 
+                                    x=xmlhttp.response;
+                                    //console.log(this.post.yellow_a);
+                                    for (key in x){
+                                        vue2.post[key]=x[key];
+                                    };
+                                }
+                            }
+                        }
                         vue2.go('before');
                     },
                     

@@ -268,6 +268,22 @@ def create_app(test_config=None):
                     answer[key]=setting[key]
                 answer=json.dumps(answer)
                 return Response(response=answer)
+            elif text['type']=="changed":
+                user_id = session.get('user_id')
+                db = get_db()
+                setting = db.execute(
+                    'UPDATE settings SET header_L=?,header_a=?,header_b=?,header_magenta=? ,header_yellow=?,cyan_standard=?,magenta_standard=?,yellow_standard=?,black_standard=?,cyan_expend=?,magenta_expend=?,yellow_expend=?,black_expend=?,cyan_L=?,cyan_a=?,cyan_b=?,magenta_L=?,magenta_a=?,magenta_b=?,yellow_L=?,yellow_a=?,yellow_b=?,black_L=?,black_a=?,black_b=?,header_density_difference=?,header_difference=?,middle_expend=?,four_expend=?,field_density=?,field_density_consistency=?,four_defference=?,gray_banlance=?,de_standard=?,ink_number=? WHERE author_id = ?', (text['header_L'],text['header_a'],text['header_b'],text['header_magenta'],text['header_yellow'],text['cyan_standard'],text['magenta_standard'],text['yellow_standard'],text['black_standard'],text['cyan_expend'],text['magenta_expend'],text['yellow_expend'],text['black_expend'],text['cyan_L'],text['cyan_a'],text['cyan_b'],text['magenta_L'],text['magenta_a'],text['magenta_b'],text['yellow_L'],text['yellow_a'],text['yellow_b'],text['black_L'],text['black_a'],text['black_b'],text['header_density_difference'],text['header_difference'],text['middle_expend'],text['four_expend'],text['field_density'],text['field_density_consistency'],text['four_defference'],text['gray_banlance'],text['de_standard'],text['ink_number'],user_id)
+                ).fetchone()
+                db.commit()
+                setting = db.execute(
+                    'SELECT * FROM settings WHERE author_id = ?', (user_id,)
+                ).fetchone()
+                answer={}
+                db.commit()
+                for key in setting.keys():
+                    answer[key]=setting[key]
+                answer=json.dumps(answer)
+                return Response(response=answer)
 
     @app.before_request
     def load_logged_in_user():
