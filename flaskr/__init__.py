@@ -144,17 +144,17 @@ def create_app(test_config=None):
                 ['kk','kc','km','ky','kl','ka','kb'],
                 ['tk','tc','tm','ty','tl','ta','tb'],
             ]
-            data_dict={}
-            for i in range(1,len(data)):
-                for j in range(1,len(data[i])):
-                    data_dict[name[i-1][j-1]]=data[i][j]
-            #print(data_dict)
-            machine='null'
-            if(len(data[0])==8):
-                machine=data_dict['machine']
 
             try:
-                #先获取直接取得的值
+                data_dict={}
+                for i in range(1,len(data)):
+                    for j in range(1,len(data[i])):
+                        data_dict[name[i-1][j-1]]=data[i][j]
+                #print(data_dict)
+                machine='null'
+                if(len(data[0])==8):
+                    machine=data_dict['machine']
+                    #先获取直接取得的值
                 cyan_density=data_dict['cc']
                 magenta_density=data_dict['mm']
                 yellow_density=data_dict['yy']
@@ -251,6 +251,7 @@ def create_app(test_config=None):
 
 
     @app.route('/settings',methods=('GET', 'POST'))
+    @login_required
     def settings():
         if request.method == 'GET':
             return render_template('settings.html')
@@ -374,6 +375,26 @@ def create_app(test_config=None):
             return(Response(response=answer))
         elif request.method == 'GET':
             return render_template('login0.html')
+
+    @app.route('/result',methods=('GET', 'POST'))
+    @login_required
+    def result():
+        if request.method == 'GET':
+            return render_template('result.html')
+        elif request.method == 'POST':
+            user_id = session.get('user_id')
+            db = get_db()
+            results = db.execute(
+                'SELECT * FROM result WHERE author_id = ? ORDER BY created DESC', (user_id,))
+            db.commit()
+            answers=[]
+            for result in results:
+                answer={}
+                for key in result.keys():
+                    answer[key]=result[key]
+                answers.append(answer)
+            answers=json.dumps(answers)
+            return(Response(response=answers))
 
     return app
 

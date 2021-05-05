@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>历史结果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./static/vue.js"></script>
+    <script src="./static/dist/xlsx.core.min.js"></script>
+    <link rel="stylesheet" href="static/style_analyze.css">
+  </head>
+  <body>
+    <div>
+        <table id='result_sheet'>
+            <thead>
+                <tr><th>全选<input type="checkbox" name="name1"/></th><th>序号</th><th>时间</th><th>总分</th><th>灰平衡彩度差</th><th>青网扩</th><th>青密度</th><th>青色色差</th><th>品网扩</th><th>品密度</th><th>品色色差</th><th>黄网扩</th><th>黄密度</th><th>黄色色差</th><th>黑网扩</th><th>黑密度</th><th>黑色色差</th><th>报头M密度</th><th>报头Y密度</th><th>报头色差</th><th>中间调扩展值</th></tr>
+            </thead>
+            <tbody id='result_sheet_body'>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var xmlhttp;
+        //var results;
+        if (window.XMLHttpRequest)
+        {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.responseType='json';
+        xmlhttp.open('POST','/result');
+        var data={
+            type:'init'
+        }
+        xmlhttp.send(JSON.stringify(data));
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4){
+                if(xmlhttp.status>=200&&xmlhttp.status<300){
+                    //console.log(xmlhttp.response); 
+                    var results=xmlhttp.response;
+                    //console.log(typeof results);
+                    tab=document.getElementById('result_sheet_body');
+                    /*for(let i=0;i<results.length;++i){
+                        var td = document.createElement("td");
+                        td.innerHTML='test';
+                        var tr = document.createElement("tr");
+                        tr.appendChild(td);
+                        tab.appendChild(tr);
+                    }*/
+                    const sheet2JSONOpts = {
+                        /** Default value for null/undefined values */
+                        defval: 'null',//Assign empty string to defval
+                        header:1,
+                    };
+                    var ws=XLSX.utils.json_to_sheet(results);
+                    //XLSX.utils.decode_range("B1:C9"); 
+                    ws['!ref'] = "A2:Z100";
+                    /***export interface Sheet2JSONOpts extends DateNFOption {
+                        /** Output format 
+                        header?: "A"|number|string[];
+
+                        /** Override worksheet range 
+                        range?: any;
+
+                        /** Include or omit blank lines in the output
+                        blankrows?: boolean;
+
+                        /** Default value for null/undefined values
+                        defval?: any;
+
+                        /** if true, return raw data; if false, return formatted text
+                        raw?: boolean;
+
+                        //if true, return raw numbers; if false, return formatted numbers
+                        rawNumbers?: boolean;
+                    }**/
+                    h=XLSX.utils.sheet_to_html(ws,sheet2JSONOpts);
+                    //console.log(h);
+                    tab.innerHTML=h;
+                }
+            }
+        };
+
+      </script>
+  </body>
+  </html>
