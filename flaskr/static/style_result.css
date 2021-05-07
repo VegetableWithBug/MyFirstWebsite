@@ -1,0 +1,25 @@
+#left_check{
+    float: left;
+    width:4%;
+}
+
+#right_result{
+    float: left;
+    width: 96%;
+}
+
+
+.result_sheets td{
+    font: 1.5px sans-serif;
+}
+
+.result_sheets th{
+    font-family:STHeiti,MingLiu;
+    font-size: 1.5px;
+}
+
+.result_sheets td,th{
+    height: 50px;
+    text-align: center;
+    width: 5%;
+}

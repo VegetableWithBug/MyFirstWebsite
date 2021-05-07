@@ -19,7 +19,7 @@ import traceback
 
 #计算网扩值
 def expend(x,wx,y):
-    return 100*((1-pow(10,wx-x))/(1-pow(10,wx-y))-0.4)
+    return round(100*((1-pow(10,wx-x))/(1-pow(10,wx-y))-0.4), 2)
 #通用分数计算函数1
 def score_one(weightScore, currentValue, up):
     score=weightScore
@@ -103,7 +103,7 @@ def create_app(test_config=None):
     def login_required(f):
         @wraps(f)
         def wrap(*args, **kwargs):
-            if 'logged_in' in session:
+            if 'logged_in' in session and g.user is not None:
                 return f(*args, **kwargs)
             else:
                 return redirect(url_for('login'))
@@ -169,7 +169,9 @@ def create_app(test_config=None):
                 black_expend=expend(data_dict['k4k'],data_dict['wk'],black_density)
                 expend_list=[cyan_expend,magenta_expend,yellow_expend]
                 middle_expend=max(expend_list)-min(expend_list)
+                middle_expend=round(middle_expend,2)
                 gray_banlance=abs(sqrt(pow(data_dict['ga'],2)+pow(data_dict['gb'],2))-sqrt(pow(data_dict['ha'],2)+pow(data_dict['hb'],2)))
+                gray_banlance=round(gray_banlance,2)
             except Exception as e:
                 traceback.print_exc()
             
@@ -196,10 +198,15 @@ def create_app(test_config=None):
             else:                   
                 try:#计算有lab值的项目及得分
                     cyan_difference=sqrt(pow(data_dict['cl']-setting['cyan_L'],2)+pow(data_dict['ca']-setting['cyan_a'],2)+pow(data_dict['cb']-setting['cyan_b'],2))
+                    cyan_difference=round(cyan_difference,2)
                     magenta_difference=sqrt(pow(data_dict['ml']-setting['magenta_L'],2)+pow(data_dict['ma']-setting['magenta_a'],2)+pow(data_dict['mb']-setting['magenta_b'],2))
+                    magenta_difference=round(magenta_difference,2)
                     yellow_difference=sqrt(pow(data_dict['yl']-setting['yellow_L'],2)+pow(data_dict['ya']-setting['yellow_a'],2)+pow(data_dict['yb']-setting['yellow_b'],2))
+                    yellow_difference=round(yellow_difference,2)
                     black_difference=sqrt(pow(data_dict['kl']-setting['black_L'],2)+pow(data_dict['ka']-setting['black_a'],2)+pow(data_dict['kb']-setting['black_b'],2))
+                    black_difference=round(black_difference,2)
                     header_difference=sqrt(pow(data_dict['tl']-setting['header_L'],2)+pow(data_dict['ta']-setting['header_a'],2)+pow(data_dict['tb']-setting['header_b'],2))
+                    header_difference=round(header_difference,2)
                     #print(expend_list)
                     difference_score=get_difference_score(cyan_difference,magenta_difference,yellow_difference,black_difference,setting['gray_banlance'])
                     gray_score=get_gray_score(gray_banlance,setting['gray_banlance'])
@@ -385,13 +392,13 @@ def create_app(test_config=None):
             user_id = session.get('user_id')
             db = get_db()
             results = db.execute(
-                'SELECT * FROM result WHERE author_id = ? ORDER BY created DESC', (user_id,))
+                'SELECT author_id,datetime(created),score,gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend FROM result WHERE author_id = ? ORDER BY created DESC', (user_id,))
             db.commit()
             answers=[]
             for result in results:
-                answer={}
+                answer=[]
                 for key in result.keys():
-                    answer[key]=result[key]
+                    answer.append(result[key])
                 answers.append(answer)
             answers=json.dumps(answers)
             return(Response(response=answers))
