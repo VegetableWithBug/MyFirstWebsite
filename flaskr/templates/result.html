@@ -11,12 +11,12 @@
   <body>
       <div>
           <div id='buttons'>
-              <button>删除选中</button>
-              <button>图表分析</button>
+              <button onclick="delete_select()">删除选中</button>
+              <button onclick="create_charts()">图表分析</button>
           </div>
         <div id='left_check'>
             <table id='check' class='result_sheets'>
-                <tr><th>全选<input type="checkbox" name="name1"/></th></tr>
+                <tr><th>全选<input type="checkbox" name="name1" onclick="changeState(this.checked)"/></th></tr>
             </table>
         </div>
         <div id='right_result'>
@@ -31,7 +31,7 @@
       </div>
     <script>
         var xmlhttp;
-        //var results;
+        var results;
         if (window.XMLHttpRequest)
         {
             //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -52,24 +52,18 @@
             if(xmlhttp.readyState === 4){
                 if(xmlhttp.status>=200&&xmlhttp.status<300){
                     //console.log(xmlhttp.response); 
-                    var results=xmlhttp.response;
+                    results=xmlhttp.response;
+                    var results2=xmlhttp.response;
                     //console.log(typeof results);
                     tab=document.getElementById('result_sheet_body');
-                    /*for(let i=0;i<results.length;++i){
-                        var td = document.createElement("td");
-                        td.innerHTML='test';
-                        var tr = document.createElement("tr");
-                        tr.appendChild(td);
-                        tab.appendChild(tr);
-                    }*/
                     const sheet2JSONOpts = {
                         /** Default value for null/undefined values */
                         defval: 'null',//Assign empty string to defval
                     };
-                    for(let i=0;i<results.length;++i){
-                        results[i][0]=i+1
+                    for(let i=0;i<results2.length;++i){
+                       results2[i][0]=i+1
                     }
-                    var ws=XLSX.utils.json_to_sheet(results,{skipHeader:true});
+                    var ws=XLSX.utils.json_to_sheet(results2,{skipHeader:true});
                     //XLSX.utils.decode_range("B1:C9"); 
                     //ws['!ref'] = "A2:Z100";
                     /***export interface Sheet2JSONOpts extends DateNFOption {
@@ -155,6 +149,105 @@
         window.onload=function(){
             var table=document.getElementsByTagName("table")[1];
             makeSortable(table);
+        }
+
+        //删除按钮触发
+        function delete_select(){
+            var x;
+            var r=confirm("你确定删除这些数据吗？删除的数据不可恢复！");
+            if (r==true){
+                del();
+            }
+        }
+
+        function del(){
+            var inputs=document.getElementsByTagName('input');
+            var table=document.getElementById('result_sheet');
+            //var tbody=table.tBodies[0];
+            var data={};
+            var ids=[];
+            for(let i=1;i<inputs.length;++i){
+                if(inputs[i].checked){
+                    cell=table.rows[i].getElementsByTagName("td")[0];
+                    j=cell.innerText;
+                    ids.push(results[j-1][0]);
+                }
+            }
+            if(ids.length==0)
+            {
+                alert("请先选中要删除的项!");
+                return;
+            }
+            data['ids']=ids;
+            data['type']='del';
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {
+                //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+                // IE6, IE5 浏览器执行代码
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.responseType='json';
+            xmlhttp.open('POST','/result');
+            xmlhttp.send(JSON.stringify(data));
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState === 4){
+                    if(xmlhttp.status>=200&&xmlhttp.status<300){
+                        if(xmlhttp.response.code==1){
+                            alert("删除成功！");
+                            xmlhttp.open('POST','/result');
+                            var data={
+                                type:'init'
+                            }
+                            xmlhttp.send(JSON.stringify(data));
+                            xmlhttp.onreadystatechange = function(){
+                                if(xmlhttp.readyState === 4){
+                                    if(xmlhttp.status>=200&&xmlhttp.status<300){
+                                        results=xmlhttp.response;
+                                        var results2=xmlhttp.response;
+                                        tab=document.getElementById('result_sheet_body');
+                                        const sheet2JSONOpts = {
+                                            /** Default value for null/undefined values */
+                                            defval: 'null',//Assign empty string to defval
+                                        };
+                                        for(let i=0;i<results2.length;++i){
+                                            results2[i][0]=i+1
+                                        }
+                                        var ws=XLSX.utils.json_to_sheet(results2,{skipHeader:true});
+                                        h=XLSX.utils.sheet_to_html(ws,sheet2JSONOpts);
+                                        tab.innerHTML=h;
+                                        var t=document.getElementById('check');
+                                        //这里要删除复选框
+                                        for(var j = 0; j < ids.length; j++){
+                                            t.deleteRow(j+1);
+                                        }
+                                    }
+                                } 
+                            }
+                        }
+                        else if(xmlhttp.response.code==0)
+                        {
+                            alert("删除失败！");
+                        }
+                    }
+                }
+            }
+        }
+
+        //全选按钮
+        function changeState(isChecked)
+        {
+             var chk_list=document.getElementsByTagName("input");
+             for(var i=0;i<chk_list.length;i++){
+                if(chk_list[i].type=="checkbox")
+                {
+                    chk_list[i].checked=isChecked;
+                }
+            }
         }
 
       </script>

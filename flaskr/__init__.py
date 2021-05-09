@@ -389,20 +389,42 @@ def create_app(test_config=None):
         if request.method == 'GET':
             return render_template('result.html')
         elif request.method == 'POST':
-            user_id = session.get('user_id')
-            db = get_db()
-            results = db.execute(
-                'SELECT author_id,datetime(created),score,gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend FROM result WHERE author_id = ? ORDER BY created DESC', (user_id,))
-            db.commit()
-            answers=[]
-            for result in results:
-                answer=[]
-                for key in result.keys():
-                    answer.append(result[key])
-                answers.append(answer)
-            answers=json.dumps(answers)
-            return(Response(response=answers))
-
+            text=json.loads(request.get_data())
+            if(text['type']=='init'):
+                user_id = session.get('user_id')
+                db = get_db()
+                results = db.execute(
+                    'SELECT id,datetime(created),score,gray_banlance,cyan_expend,cyan_density,cyan_difference,magenta_expend,magenta_density,magenta_difference,yellow_expend,yellow_density,yellow_difference,black_expend,black_density,black_difference,header_M,header_Y,header_difference,middle_expend FROM result WHERE author_id = ? ORDER BY created DESC', (user_id,))
+                db.commit()
+                answers=[]
+                for result in results:
+                    answer=[]
+                    for key in result.keys():
+                        answer.append(result[key])
+                    answers.append(answer)
+                answers=json.dumps(answers)
+                return(Response(response=answers))
+            elif(text['type']=='del'):
+                id_list=[]
+                id_list=text['ids']
+                code=0
+                try:
+                    db=get_db()
+                    for i in range(len(id_list)):
+                        db.execute(
+                            'DELETE FROM result WHERE id = ?',(id_list[i],)
+                        )
+                    db.commit()
+                    code=1
+                except Exception as e:
+                    print(e)
+                    traceback.print_exc()
+                    code=0
+                data={
+                    'code':code,
+                }
+                answer=json.dumps(data)
+                return Response(response=answer)
     return app
 
     

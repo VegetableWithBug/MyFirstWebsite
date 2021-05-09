@@ -8,18 +8,45 @@
     width: 96%;
 }
 
+.result_sheets{
+    border-collapse: collapse;
+}
 
 .result_sheets td{
     font: 1.5px sans-serif;
+    height: 50px;
+    text-align: center;
+    width: 5%;
 }
 
 .result_sheets th{
     font-family:STHeiti,MingLiu;
     font-size: 1.5px;
-}
-
-.result_sheets td,th{
-    height: 50px;
+    border-bottom: 1.8px solid rgb(181, 154, 254);
+    height: 40px;
     text-align: center;
     width: 5%;
+}
+
+#buttons{
+    text-align: right;
+    margin: 10px;
+}
+
+#buttons button{
+    border: none;
+    outline: none;
+    margin: 5px;
+    width: 5rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+    background: linear-gradient(90deg, rgb(181, 154, 254), rgb(245, 189, 253));
+    cursor: pointer;
+    color: black;
+    font: 1.5px sans-serif;
+}
+
+#buttons button:hover {
+    color: white;
+    box-shadow: 0 0 8px rgb(181, 154, 254);
 }
