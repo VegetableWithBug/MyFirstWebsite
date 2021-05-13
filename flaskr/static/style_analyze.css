@@ -201,6 +201,12 @@ a {
   box-shadow: 0 0 8px rgb(181, 154, 254);
 }
 
+.back a{
+  position: absolute;
+  left: 2rem;
+  top: 0.8rem;
+}
+
 /*.setting-table_changed{
   height: 90%;
   margin: 1rem;

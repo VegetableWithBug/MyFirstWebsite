@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="static/style_result.css">
   </head>
   <body>
-      <div>
+    <div id='vue_result'>
           <div id='buttons'>
               <button onclick="delete_select()">删除选中</button>
               <button onclick="create_charts()">图表分析</button>
@@ -22,7 +22,7 @@
             </table>
         </div>
         <div id='right_result'>
-            <table id='result_sheet' class='result_sheets'>
+            <table id='result_sheet' class='result_sheets' >
                 <thead>
                     <tr><th>序号</th><th>时间</th><th>总分</th><th>灰平衡彩度差</th><th>青网扩</th><th>青密度</th><th>青色色差</th><th>品网扩</th><th>品密度</th><th>品色色差</th><th>黄网扩</th><th>黄密度</th><th>黄色色差</th><th>黑网扩</th><th>黑密度</th><th>黑色色差</th><th>报头M密度</th><th>报头Y密度</th><th>报头色差</th><th>中间调扩展值</th></tr>
                 </thead>
@@ -30,9 +30,23 @@
                 </tbody>
             </table>
         </div>
-      </div>
-      <div id="main" style="width:1000px;height:680px;"></div>
+    </div>
+    <div>
+        <div id="main" style="width:100vw;height:100vh;display: none;"></div>
+    </div>
     <script>
+        /*var vue6 = new Vue({
+            el: '#vue_result',
+            data: {
+                active:'sheet',
+            },
+            methods: {
+                go (type) {
+                    this.active = type
+                },    
+            },
+
+        });*/
         var xmlhttp;
         var results;
         if (window.XMLHttpRequest)
@@ -264,7 +278,6 @@
 
         //生成图表
         function create_charts(){
-            var myChart = echarts.init(document.getElementById('main'));
             names=['灰平衡彩度差≤3','青网扩14-17-22','青密度 0.85-0.87-0.9','青色色差≤3','品网扩14-17-22','品密度0.85-0.87-0.9','品色色差≤5','黄网扩  14-17-22','黄密度0.80-0.85-0.9','黄色色差≤4',	'黑网扩14-17-22','黑密度1.0-1.05-1.10','黑色色差≤3','报头M密度0.8','报头Y密度0.8','报头色差≤3','中间调扩展值≤3']
             var datas=[];
             var numbers=[];
@@ -291,12 +304,40 @@
             }
             // 指定图表的配置项和数据
             var option = {
+                backgroundColor:'white',
                 title: {
                     text: ''
                 },
-                tooltip: {},
+                grid: {
+                    right: '16%',
+                },
+                tooltip: {
+                },
+                toolbox: {
+                    show:true,
+                    right:'5%',
+                    feature: {
+                        saveAsImage:{
+                            name: "chart",
+                        },
+                        dataZoom:{
+                        },
+                        restore:{
+                        },
+                        myTool:{
+                            title: "关闭",
+                            show:true,
+                            icon: "image://static/close2.png",
+                            onclick:function(){
+                                m=document.getElementById('main');
+                                echarts.dispose(m);
+                                m.style.display='none';
+                            }
+                        }
+                    }
+                },
                 legend: {
-                    left:'80%',
+                    left:'86%',
                     top:'15%',
                     orient:'vertical',
                     data:names,
@@ -307,12 +348,15 @@
                 yAxis: {},
                 series: datas,
             };
-
+            //vue6.go('chart');
             // 使用刚指定的配置项和数据显示图表。
+            mm=document.getElementById('main');
+            var myChart = echarts.init(mm);
+            mm.style.display='block';
             myChart.setOption(option);
         }
 
 
       </script>
   </body>
-  </html>
+</html>
