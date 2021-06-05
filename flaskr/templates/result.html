@@ -134,9 +134,9 @@
         
                         //基于第n个<td>元素的值对行排序
                         rows.sort(function(row1,row2){
-                            var cell1=row1.getElementsByTagName("td")[n];//获得第n个单元格
+                            var cell1=row1.getElementsByTagName("td")[n];   //获得第n个单元格
                             var cell2=row2.getElementsByTagName("td")[n];
-                            var val1=cell1.textContent||cell1.innerText;//获得文本内容
+                            var val1=cell1.textContent||cell1.innerText;   //获得文本内容
                             var val2=cell2.textContent||cell2.innerText;
         
                             if(val1<val2){
@@ -348,7 +348,6 @@
                 yAxis: {},
                 series: datas,
             };
-            //vue6.go('chart');
             // 使用刚指定的配置项和数据显示图表。
             mm=document.getElementById('main');
             var myChart = echarts.init(mm);

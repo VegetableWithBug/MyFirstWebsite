@@ -207,30 +207,7 @@ a {
   top: 0.8rem;
 }
 
-/*.setting-table_changed{
-  height: 90%;
-  margin: 1rem;
-  box-shadow: 0 0 8px rgb(181, 154, 254);
-  border-radius: 1rem;
-  padding: 1.5rem 1rem 1.5rem 2rem;
-  line-height: 1rem;
-  align-items: center;
-  text-align: center;
-  font-size: 0.9rem;
-  background: whitesmoke;
-  border-collapse: collapse;
+#logout{
+  position: absolute;
+  right: 2rem; top: 1rem;
 }
-
-.setting-table_changed th{
-  width: 7rem;
-  border: none;
-  text-align: left;
-  border: .1rem solid rgb(181, 154, 254);
-}
-
-.setting-table_changed td{
-  text-align: center;
-  width: 5rem;
-  border: none;
-  border: .1rem solid rgb(181, 154, 254);
-}*/

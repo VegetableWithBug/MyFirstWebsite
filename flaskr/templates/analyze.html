@@ -24,10 +24,10 @@
           <table id="data-table">
             <tr>
               <th></th>
+              <th>黑密度</th>
               <th>青密度</th>
               <th>品红密度</th>
               <th>黄密度</th>
-              <th>灰密度</th>
               <th>L值</th>
               <th>a值</th>
               <th>b值</th>
@@ -274,12 +274,9 @@
                     });
                 }
                 const sheet2JSONOpts = {
-                  /** Default value for null/undefined values */
                   defval: ''//给defval赋值为空的字符串
                 }
-                //var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable:true}).replace("<table", '<table id="data-table"');
                 var o = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {skipHeader:true,header:1});
-                console.log(o);
                 dt=document.getElementById('data-table');
                 for(let i=1;i<13;++i){
                   var cells=dt.rows[i].getElementsByTagName("td");

@@ -64,7 +64,6 @@
                             tds[i].contentEditable=true;
                             tds[i].setAttribute('style', 'border: none');
                         }
-                        //console.log(setting_changed);
                         setting_changed['type']="changed";
                         setting_changed['id']=vue2.post['id'];
                         var xmlhttp;
@@ -86,7 +85,6 @@
                                 if(xmlhttp.status>=200&&xmlhttp.status<300){
                                     console.log(xmlhttp.response); 
                                     x=xmlhttp.response;
-                                    //console.log(this.post.yellow_a);
                                     for (key in x){
                                         vue2.post[key]=x[key];
                                     };
@@ -182,7 +180,6 @@
                 if(xmlhttp.status>=200&&xmlhttp.status<300){
                     console.log(xmlhttp.response); 
                     x=xmlhttp.response;
-                    //console.log(this.post.yellow_a);
                     for (key in x){
                         vue2.post[key]=x[key];
                     };
